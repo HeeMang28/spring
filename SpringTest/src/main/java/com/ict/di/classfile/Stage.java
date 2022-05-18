@@ -1,16 +1,22 @@
 package com.ict.di.classfile;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class Stage {
 	
-	private Singer singer; // ë¬´ëŒ€ì— ì„œëŠ” ê°€ìˆ˜
 	
-	// ë¬´ëŒ€ëŠ” ê°€ìˆ˜ê°€ ìˆì–´ì•¼ ì„±ë¦½í•©ë‹ˆë‹¤.
+	@Autowired
+	private Singer singer; // ¹«´ë¿¡ ¼­´Â °¡¼ö
+	
+	// ¹«´ë´Â °¡¼ö°¡ ÀÖ¾î¾ß ¼º¸³ÇÕ´Ï´Ù.
 	public Stage(Singer singer) {
-		this.singer = singer; // ë¬´ëŒ€ì— ì„¤ ê°€ìˆ˜ë¥¼ ì…ë ¥í•´ì•¼ ìƒì„±ì ì‹¤í–‰ì´ ê°€ëŠ¥í•˜ê²Œ ì²˜ë¦¬
+		this.singer = singer; // ¹«´ë¿¡ ¼³ °¡¼ö¸¦ ÀÔ·ÂÇØ¾ß »ı¼ºÀÚ ½ÇÇàÀÌ °¡´ÉÇÏ°Ô Ã³¸®
 	}
 	
 	public void perform() {
-		System.out.print("ë¬´ëŒ€ì—ì„œ ");
+		System.out.print("¹«´ë¿¡¼­ ");
 		this.singer.sing();
 	}
 }

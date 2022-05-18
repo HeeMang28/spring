@@ -1,5 +1,6 @@
 package com.ict.di;
 
+import com.ict.di.classfile.Broadcast;
 import com.ict.di.classfile.Singer;
 import com.ict.di.classfile.Stage;
 
@@ -7,11 +8,15 @@ public class DIMainJavaver {
 
 	public static void main(String[] args) {
 		
-		Singer s1 = new Singer();
-		s1.sing();
+		Singer singer = new Singer();
+		singer.sing();
 		
-		Stage sta1 = new Stage(s1);
-		sta1.perform();
+		Stage stage = new Stage(singer);
+		stage.perform();
+		
+		Broadcast broadcast = new Broadcast(stage);
+		broadcast.broad();
+		
 		
 
 	}
