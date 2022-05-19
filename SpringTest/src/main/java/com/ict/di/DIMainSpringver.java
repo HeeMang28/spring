@@ -3,6 +3,7 @@ package com.ict.di;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 import com.ict.di.classfile.Broadcast;
+import com.ict.di.classfile.Satallite;
 import com.ict.di.classfile.Singer;
 import com.ict.di.classfile.Stage;
 
@@ -21,8 +22,11 @@ public class DIMainSpringver {
 		//Singer singer = context.getBean("singer", Singer.class);
 		//singer.sing();
 		
-		Broadcast broadcast = context.getBean("broadcast", Broadcast.class);
-		broadcast.broad();
+		//Broadcast broadcast = context.getBean("broadcast", Broadcast.class);
+		//broadcast.broad();
+		
+		Satallite satallite = context.getBean("satallite", Satallite.class);
+		satallite.satelliteBraod();
 	}
 
 }
