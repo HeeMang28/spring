@@ -21,7 +21,7 @@ public class DIMainJavaver {
 		broadcast.broad();
 		
 		Satallite satallite = new Satallite(broadcast);
-		satallite.satelliteBraod();
+		satallite.satelliteBroad();
 		
 
 

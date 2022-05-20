@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	
+	<bean id="balladSinger" class="com.ict.di.classfile.BalladSinger"></bean>
+	
+	<bean id="balladStage" class="com.ict.di.classfile.Stage">
+		<!--  <constructor-arg ref="balladSinger"></constructor-arg> -->
+		<property name="singer" ref="balladSinger"></property>
+	</bean>
+	
+	<!-- broadCast 2개를 생성해주세요. 하나는 hiphopStage를 주입받고
+	다른 하나는 danceStage를 주입받도록 생성해주세요. Broadcast클래스내부 @Autowired는 해제해주세요. -->
+	
+	<bean id="balladBroadcast" class="com.ict.di.classfile.Broadcast">
+		<constructor-arg ref="balladStage"></constructor-arg>
+	</bean>
+	
+	<bean id="balladSatallite" class="com.ict.di.classfile.Satallite">
+		<constructor-arg ref="balladBroadcast"></constructor-arg>
+	</bean>
+</beans>
