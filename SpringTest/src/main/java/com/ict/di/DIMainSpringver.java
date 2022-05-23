@@ -12,12 +12,11 @@ public class DIMainSpringver {
 
 	public static void main(String[] args) {
 		// root-context가 여러개라면 미리 문자 배열로 경로를 만들어두기.
-		
 		String[] path = { "file:src/main/webapp/WEB-INF/spring/root-context.xml", "file:src/main/webapp/WEB-INF/spring/root-context2.xml"};
 		// 빈 컨테이너에 들어있는 객체를 꺼내기위해 호출기 생성
 		// 목표 빈 컨테이너(root-context.xml)의 경로를 적어줘서
 		//GenericXmlApplicationContext context = new GenericXmlApplicationContext("file:src/main/webapp/WEB-INF/spring/root-context.xml", "file:src/main/webapp/WEB-INF/spring/root-context2.xml");
-		GenericXmlApplicationContext context = new GenericXmlApplicationContext(path);
+		GenericXmlApplicationContext context = new GenericXmlApplicationContext("file:src/main/webapp/WEB-INF/spring/root-*.xml");
 		
 		// Singer없이 바로 다이렉트로 Stage를 만들어보겠습니다.
 		//Stage stage = context.getBean("stage", Stage.class);
