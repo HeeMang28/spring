@@ -14,7 +14,7 @@ public class DIMainJavaver {
 		BalladSinger singer = new BalladSinger();
 		singer.sing();
 		
-		Stage stage = new Stage(singer);
+		/* Stage stage = new Stage(singer);
 		stage.perform();
 		
 		Broadcast broadcast = new Broadcast(stage);
@@ -22,7 +22,7 @@ public class DIMainJavaver {
 		
 		Satallite satallite = new Satallite(broadcast);
 		satallite.satelliteBroad();
-		
+		*/
 
 
 	}

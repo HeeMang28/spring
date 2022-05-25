@@ -1,25 +1,30 @@
 package com.ict.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-// ºó ÄÁÅ×ÀÌ³Ê¿¡ ³Ö¾îÁÖ¼¼¿ä (µî·ÏµÈ ÄÁÆ®·Ñ·¯¸¸ µ¿ÀÛÇÕ´Ï´Ù.)
+import com.ict.domain.TestVO;
+
+//ë¹ˆ ì»¨í…Œì´ë„ˆì— ë„£ì–´ì£¼ì„¸ìš” (ë“±ë¡ëœ ì»¨íŠ¸ë¡¤ëŸ¬ë§Œ ë™ì‘í•©ë‹ˆë‹¤.)
 @Controller
 public class MVCController {
 
-	// ±âº»ÁÖ¼Ò(localhost:8181)µÚ¿¡ /goA¸¦ ºÙÀÌ¸é goA() ¸Ş¼­µå ½ÇÇà
+	// ê¸°ë³¸ì£¼ì†Œ(localhost:8181)ë’¤ì— /goAë¥¼ ë¶™ì´ë©´ goA() ë©”ì„œë“œ ì‹¤í–‰
 	@RequestMapping(value="/goA")
 	public String goA() {
-		System.out.println("goA ÁÖ¼Ò Á¢¼Ó °¨Áö");
-		// °á°ú ÆäÀÌÁö´Â views Æú´õ ¾Æ·¡ÀÇ A.jsp
+		System.out.println("goA ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+		// ê²°ê³¼ í˜ì´ì§€ëŠ” views í´ë” ì•„ë˜ì˜ A.jsp
 		return "A";
 	}
 	
-	// ÁÖ¼Ò /goB¸¦ ¾²´Â°É Á÷Á¢ ¸¸µé¾îÁÖ¼¼¿ä.
+	// ì£¼ì†Œ /goBë¥¼ ì“°ëŠ”ê±¸ ì§ì ‘ ë§Œë“¤ì–´ì£¼ì„¸ìš”.
 	@RequestMapping(value="/goB")
 	public String goB() {
 		System.out.println("ABCDEFGHIJKLNM");
@@ -27,35 +32,35 @@ public class MVCController {
 		return "alphabet";
 	}
 	
-	// ÁÖ¼Ò /goC·Î Á¢¼ÓÇÏ´Â ÄÁÆ®·Ñ·¯¸¦ ¸¸µé¾îÁÖ¼¼¿ä.
-	// °á°ú ÆäÀÌÁöµµ goCÀÌ°í, Á¢¼Ó½Ã " ¹ÙÀÎµù Å×½ºÆ®" ¶ó´Â ¹®ÀÚ¿­À» ÀúÀåÇÏ¼¼¿ä.
+	// ì£¼ì†Œ /goCë¡œ ì ‘ì†í•˜ëŠ” ì»¨íŠ¸ë¡¤ëŸ¬ë¥¼ ë§Œë“¤ì–´ì£¼ì„¸ìš”.
+	// ê²°ê³¼ í˜ì´ì§€ë„ goCì´ê³ , ì ‘ì†ì‹œ " ë°”ì¸ë”© í…ŒìŠ¤íŠ¸" ë¼ëŠ” ë¬¸ìì—´ì„ ì €ì¥í•˜ì„¸ìš”.
 	
 	@RequestMapping(value="/goC")
-	// Model À» ¼±¾ğÇØÁÖ¸é ¹ÙÀÎµù ¹× Æ÷¿öµùÀ¸·Î .jspÆÄÀÏ¿¡ µ¥ÀÌÅÍ¸¦ ¹ß¼ÛÇÒ ¼ö ÀÖ½À´Ï´Ù. 
+	// Model ì„ ì„ ì–¸í•´ì£¼ë©´ ë°”ì¸ë”© ë° í¬ì›Œë”©ìœ¼ë¡œ .jspíŒŒì¼ì— ë°ì´í„°ë¥¼ ë°œì†¡í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. 
 	public String goC(Model model) {
-		// model.addAtrribute("Àü´Ş¸í", ÀÚ·á);
-		// ¹ÙÀÎµùÇØ¼­ º¸³½ ÀÚ·á´Â .jspÆÄÀÏ¿¡¼­ ${¸íÄª} À¸·Î elÀ» »ç¿ëÇØ Ãâ·ÂÇÒ ¼ö ÀÖ½À´Ï´Ù,
-		// goC.jsp¿¡¼­ ¾Æ·¡ ¹®ÀÚ¿­À» bodyÅÂ±× ³»¿¡ ¶ç¿öº¸¼¼¿ä.
-		model.addAttribute("test", "goC¿¡¼­ º¸³»¿Â ¹®ÀÚ¿­");
+		// model.addAtrribute("ì „ë‹¬ëª…", ìë£Œ);
+		// ë°”ì¸ë”©í•´ì„œ ë³´ë‚¸ ìë£ŒëŠ” .jspíŒŒì¼ì—ì„œ ${ëª…ì¹­} ìœ¼ë¡œ elì„ ì‚¬ìš©í•´ ì¶œë ¥í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤,
+		// goC.jspì—ì„œ ì•„ë˜ ë¬¸ìì—´ì„ bodyíƒœê·¸ ë‚´ì— ë„ì›Œë³´ì„¸ìš”.
+		model.addAttribute("test", "goCï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½");
 		return "goC";
 		
 	}
 	
-	//goD´Â ÆÄ¶ó¹ÌÅÍ¸¦ ÀÔ·Â¹ŞÀ» ¼ö ÀÖµµ·Ï ÇØº¸°Ú½À´Ï´Ù.
+	//goDëŠ” íŒŒë¼ë¯¸í„°ë¥¼ ì…ë ¥ë°›ì„ ìˆ˜ ìˆë„ë¡ í•´ë³´ê² ìŠµë‹ˆë‹¤.
 	@RequestMapping(value="/goD")
-	// ÁÖ¼Ò µÚ ?dNum=°ª ÇüÅÂ·Î µé¾î¿À´Â ÀÚ·á¸¦ ·ÎÁ÷ ³» dNumº¯¼ö¿¡ ´ëÀÔÇØÁİ´Ï´Ù.
-	// µé¾î¿Â ÆÄ¶ó¹ÌÅÍ¸¦ .jsp·Î º¸³»ÁÖ±â À§ÇØ¼­´Â ¿ª½Ã Model modelÀ» ÆÄ¶ó¹ÌÅÍ¿¡ ¼±¾ğÇØÁİ´Ï´Ù.
+	// ì£¼ì†Œ ë’¤ ?dNum=ê°’ í˜•íƒœë¡œ ë“¤ì–´ì˜¤ëŠ” ìë£Œë¥¼ ë¡œì§ ë‚´ dNumë³€ìˆ˜ì— ëŒ€ì…í•´ì¤ë‹ˆë‹¤.
+	// ë“¤ì–´ì˜¨ íŒŒë¼ë¯¸í„°ë¥¼ .jspë¡œ ë³´ë‚´ì£¼ê¸° ìœ„í•´ì„œëŠ” ì—­ì‹œ Model modelì„ íŒŒë¼ë¯¸í„°ì— ì„ ì–¸í•´ì¤ë‹ˆë‹¤.
 	public String goD(int dNum, Model model) {
-		System.out.println("ÁÖ¼Ò·Î Àü´Ş¹ŞÀº °ª : " + dNum);
+		System.out.println("ï¿½Ö¼Ò·ï¿½ ï¿½ï¿½ï¿½Ş¹ï¿½ï¿½ï¿½ ï¿½ï¿½ : " + dNum);
 		model.addAttribute("dNum", dNum);
 		return "D";
 		
 	}
 	
-	// cToF ¸Ş¼­µå¸¦ ¸¸µé°Ú½À´Ï´Ù.
-	// ¼·¾¾ ¿Âµµ¸¦ ÀÔ·Â¹Ş¾Æ È­¾¾ ¿Âµµ·Î ¹Ù²ã¼­ Ãâ·ÂÇØÁÖ´Â ·ÎÁ÷À» ÀÛ¼ºÇØÁÖ¼¼¿ä.
-	// (È­¾¾ - 32) / 1.8 = ¼·¾¾¿Âµµ ÀÔ´Ï´Ù.
-	// ÆÄÀÏ ÀÌ¸§Àº ctof.jspÀÔ´Ï´Ù.
+	// cToF ë©”ì„œë“œë¥¼ ë§Œë“¤ê² ìŠµë‹ˆë‹¤.
+	// ì„­ì”¨ ì˜¨ë„ë¥¼ ì…ë ¥ë°›ì•„ í™”ì”¨ ì˜¨ë„ë¡œ ë°”ê¿”ì„œ ì¶œë ¥í•´ì£¼ëŠ” ë¡œì§ì„ ì‘ì„±í•´ì£¼ì„¸ìš”.
+	// (í™”ì”¨ - 32) / 1.8 = ì„­ì”¨ì˜¨ë„ ì…ë‹ˆë‹¤.
+	// íŒŒì¼ ì´ë¦„ì€ ctof.jspì…ë‹ˆë‹¤.
 	
 	@RequestMapping(value="/ctof", method=RequestMethod.POST)
 	public String cToF(double c, Model model) {
@@ -65,18 +70,18 @@ public class MVCController {
 		return "ctof";	
 	}
 	
-	// ÆûÀ» ¸¸µé¾î¼­ Æû¿¡¼­ ÀÔ·ÂµÈ ¿Âµµ¸¦ ±×´ë·Î ¼·¾¾¿Âµµ·Î Ã³¸®ÇÏµµ·Ï ¸¸µê
+	// í¼ì„ ë§Œë“¤ì–´ì„œ í¼ì—ì„œ ì…ë ¥ëœ ì˜¨ë„ë¥¼ ê·¸ëŒ€ë¡œ ì„­ì”¨ì˜¨ë„ë¡œ ì²˜ë¦¬í•˜ë„ë¡ ë§Œë“¦
 	@RequestMapping(value="/ctof", method=RequestMethod.GET)
 	public String cToFform() {
 		return "ctofform";
 	}
 	
-	// À§¿Í °°Àº ¹æ½ÄÀ¸·Î bmiÃøÁ¤ÆäÀÌÁö¸¦ ¸¸µé¾îº¸°Ú½À´Ï´Ù.
-	// ÆûÆäÀÌÁö¿Í °á°ú ÆäÀÌÁö Á¶ÇÕÀ¸·Î ±¸¼ºµÇ¸ç Á¢±ÙÁÖ¼Ò´Â /bmi·Î ÅëÀÏÇÕ´Ï´Ù.
-	// bmi °ø½ÄÀº Ã¼Áß / Å°(m) ^ 2 ·Î ³ª¿À´Â °á°úÀÔ´Ï´Ù.
+	// ìœ„ì™€ ê°™ì€ ë°©ì‹ìœ¼ë¡œ bmiì¸¡ì •í˜ì´ì§€ë¥¼ ë§Œë“¤ì–´ë³´ê² ìŠµë‹ˆë‹¤.
+	// í¼í˜ì´ì§€ì™€ ê²°ê³¼ í˜ì´ì§€ ì¡°í•©ìœ¼ë¡œ êµ¬ì„±ë˜ë©° ì ‘ê·¼ì£¼ì†ŒëŠ” /bmië¡œ í†µì¼í•©ë‹ˆë‹¤.
+	// bmi ê³µì‹ì€ ì²´ì¤‘ / í‚¤(m) ^ 2 ë¡œ ë‚˜ì˜¤ëŠ” ê²°ê³¼ì…ë‹ˆë‹¤.
 	@RequestMapping(value="/bmi", method=RequestMethod.POST)
 	public String bmi(@RequestParam("height") int cm, int kg, Model model) { 
-		// requestparam »ç¿ë½Ã cmÀÇ °ªÀ» ´õÀÌ»ó ¹ŞÁö ¸øÇÔ.
+		// requestparam ì‚¬ìš©ì‹œ cmì˜ ê°’ì„ ë”ì´ìƒ ë°›ì§€ ëª»í•¨.
 		double m = cm / 100.0;
 		double bmi = kg / (m * m);
 		model.addAttribute("bmi", bmi);
@@ -89,16 +94,51 @@ public class MVCController {
 		return "bmiform";
 	}
 	
-	// PathVariableÀ» ÀÌ¿ëÇÏ¸é urlÆĞÅÏ¸¸À¸·Îµµ Æ¯Á¤ ÆÄ¶ó¹ÌÅÍ¸¦ ¹Ş¾Æ¿Ã ¼ö ÀÖ½À´Ï´Ù.
-	// reset¹æ½ÄÀ¸·Î urlÀ» Ã³¸®ÇÒ¶§ ÁÖ·á »ç¿ëÇÏ´Â ¹æ½ÄÀÔ´Ï´Ù.
-	// /pathtest/¼ıÀÚ Áß ¼ıÀÚ À§Ä¡¿¡ ¿Â°ÍÀ» pageº¯¼ö¿¡ Àü´ŞÇÒ °ªÀ¸·Î °£ÁÖÇÕ´Ï´Ù.
+	// PathVariableì„ ì´ìš©í•˜ë©´ urlíŒ¨í„´ë§Œìœ¼ë¡œë„ íŠ¹ì • íŒŒë¼ë¯¸í„°ë¥¼ ë°›ì•„ì˜¬ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+	// resetë°©ì‹ìœ¼ë¡œ urlì„ ì²˜ë¦¬í• ë•Œ ì£¼ë£Œ ì‚¬ìš©í•˜ëŠ” ë°©ì‹ì…ë‹ˆë‹¤.
+	// /pathtest/ìˆ«ì ì¤‘ ìˆ«ì ìœ„ì¹˜ì— ì˜¨ê²ƒì„ pageë³€ìˆ˜ì— ì „ë‹¬í•  ê°’ìœ¼ë¡œ ê°„ì£¼í•©ë‹ˆë‹¤.
 	@RequestMapping(value="/pathtest/{page}")
-	// int page ¿ŞÂÊ¿¡ @PathVariableÀ» ºÙ¿©¾ß ¿¬µ¿µÊ
+	// int page ï¿½ï¿½ï¿½Ê¿ï¿½ @PathVariableï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public String pathTest(@PathVariable int page, Model model) {
 		System.out.println(page);
 		model.addAttribute("page", page);
-		// ¹Ş¾Æ¿Â page º¯¼ö¸¦ path.jsp·Î º¸³»ÁÖ¼¼¿ä
-		// path.jsp¿¡´Â {path}ÆäÀÌÁö Á¶È¸ÁßÀÔ´Ï´Ù ¶ó´Â ¹®ÀåÀÌ ¶ß°Ô ÇØÁÖ¼¼¿ä.
+		// ë°›ì•„ì˜¨ page ë³€ìˆ˜ë¥¼ path.jspë¡œ ë³´ë‚´ì£¼ì„¸ìš”
+		// path.jspì—ëŠ” {path}í˜ì´ì§€ ì¡°íšŒì¤‘ì…ë‹ˆë‹¤ ë¼ëŠ” ë¬¸ì¥ì´ ëœ¨ê²Œ í•´ì£¼ì„¸ìš”.
 		return "path";
 }
+
+	@RequestMapping(value="/exchange/{won}")
+	public String exchange(@PathVariable int won, Model model) {
+		double yen = won / 995;
+		model.addAttribute("won", won);
+		model.addAttribute("yen", yen);
+		
+		return "exchange";
+	}
+	
+
+	@RequestMapping("/spring")
+	public void spring() {
+		System.out.println("/spring ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½");
+	}
+	
+
+	@GetMapping("/list")
+	public String getList(@RequestParam("ids") ArrayList<String> ids, Model model) {
+		System.out.println(ids);
+		model.addAttribute("ids", ids);
+		return "list";
+	}
+	
+
+	@GetMapping("/getVO")
+	public String getVO(TestVO vo, Model model) {
+		
+		System.out.println("ë°›ì•„ì˜¨ ê°ì²´ : " + vo);
+		model.addAttribute("vo", vo);
+		return "voview";
+	}
+	@GetMapping("/voform")
+	public void voForm() {
+	}
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>당신의 키는${cm } 이고 몸무게는 ${kg } 이므로</h1>
-	<h1>bmi는 ${bmi } 입니다.</h1>
+	<c:forEach var="id" items="${ids}"> 
+		${id} <br/>
+ 	</c:forEach>
+
 </body>
 </html>

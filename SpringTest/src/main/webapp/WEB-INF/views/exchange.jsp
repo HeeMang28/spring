@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>당신의 키는${cm } 이고 몸무게는 ${kg } 이므로</h1>
-	<h1>bmi는 ${bmi } 입니다.</h1>
+	<h1>${won } 은 엔화로 환전하면 ${yen} 엔입니다. </h1>
 </body>
 </html>
