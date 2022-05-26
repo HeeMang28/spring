@@ -19,7 +19,6 @@ public class MVCController {
 	// 기본주소(localhost:8181)뒤에 /goA를 붙이면 goA() 메서드 실행
 	@RequestMapping(value="/goA")
 	public String goA() {
-		System.out.println("goA �ּ� ���� ����");
 		// 결과 페이지는 views 폴더 아래의 A.jsp
 		return "A";
 	}
@@ -51,7 +50,6 @@ public class MVCController {
 	// 주소 뒤 ?dNum=값 형태로 들어오는 자료를 로직 내 dNum변수에 대입해줍니다.
 	// 들어온 파라미터를 .jsp로 보내주기 위해서는 역시 Model model을 파라미터에 선언해줍니다.
 	public String goD(int dNum, Model model) {
-		System.out.println("�ּҷ� ���޹��� �� : " + dNum);
 		model.addAttribute("dNum", dNum);
 		return "D";
 		
@@ -98,7 +96,6 @@ public class MVCController {
 	// reset방식으로 url을 처리할때 주료 사용하는 방식입니다.
 	// /pathtest/숫자 중 숫자 위치에 온것을 page변수에 전달할 값으로 간주합니다.
 	@RequestMapping(value="/pathtest/{page}")
-	// int page ���ʿ� @PathVariable�� �ٿ��� ������
 	public String pathTest(@PathVariable int page, Model model) {
 		System.out.println(page);
 		model.addAttribute("page", page);
@@ -119,7 +116,6 @@ public class MVCController {
 
 	@RequestMapping("/spring")
 	public void spring() {
-		System.out.println("/spring �ּ� ����");
 	}
 	
 
