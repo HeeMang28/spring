@@ -1,9 +1,5 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
 Built-By: 22tka
-=======
-Built-By: ict03-12￬ﾘﾤ￭ﾛﾄ￫ﾰﾘ
->>>>>>> 8cc671c2c54393b78818241c2f165a9990c144e3
 Build-Jdk: 11.0.15
 Created-By: Maven Integration for Eclipse
 

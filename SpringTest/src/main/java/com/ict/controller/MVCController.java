@@ -116,10 +116,8 @@ public class MVCController {
 
 	@RequestMapping("/spring")
 	public void spring() {
-<<<<<<< HEAD
 		System.out.println("/spirng 주소 감지");
-=======
->>>>>>> 8cc671c2c54393b78818241c2f165a9990c144e3
+
 	}
 	
 
