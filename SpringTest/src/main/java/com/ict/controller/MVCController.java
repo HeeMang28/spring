@@ -98,7 +98,6 @@ public class MVCController {
 	// reset방식으로 url을 처리할때 주료 사용하는 방식입니다.
 	// /pathtest/숫자 중 숫자 위치에 온것을 page변수에 전달할 값으로 간주합니다.
 	@RequestMapping(value="/pathtest/{page}")
-	// int page ���ʿ� @PathVariable�� �ٿ��� ������
 	public String pathTest(@PathVariable int page, Model model) {
 		System.out.println(page);
 		model.addAttribute("page", page);
@@ -119,7 +118,7 @@ public class MVCController {
 
 	@RequestMapping("/spring")
 	public void spring() {
-		System.out.println("/spring �ּ� ����");
+		System.out.println("/spirng 주소 감지");
 	}
 	
 
