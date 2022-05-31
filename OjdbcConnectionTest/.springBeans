@@ -1,24 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-<<<<<<< HEAD
 	<pluginVersion><![CDATA[2.5.0.201010141000-RC1]]></pluginVersion>
-=======
-	<pluginVersion><![CDATA[3.9.22.202204280911-RELEASE]]></pluginVersion>
->>>>>>> 8cc671c2c54393b78818241c2f165a9990c144e3
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
-<<<<<<< HEAD
 	</configs>
-=======
-		<config>src/main/webapp/WEB-INF/spring/root-context.xml</config>
-	</configs>
-	<autoconfigs>
-	</autoconfigs>
->>>>>>> 8cc671c2c54393b78818241c2f165a9990c144e3
 	<configSets>
 	</configSets>
 </beansProjectDescription>

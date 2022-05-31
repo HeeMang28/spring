@@ -122,6 +122,7 @@
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
 			<scope>test</scope>
+<<<<<<< HEAD
 		</dependency>   
 		
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
@@ -132,6 +133,11 @@
 		    <scope>provided</scope>
 		</dependency>
      
+=======
+		</dependency> 
+		
+       
+>>>>>>> 8cc671c2c54393b78818241c2f165a9990c144e3
 	</dependencies>
     <build>
         <plugins>
