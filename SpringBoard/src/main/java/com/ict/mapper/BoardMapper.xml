@@ -33,4 +33,8 @@
 		SET title = #{title}, content = #{content}, writer = #{writer}, updatedate = sysdate 
 		WHERE bno = #{bno}
 	</update>
+	
+	<select id="boardDetail" resultType="com.ict.persistence.BoardVO">
+		SELECT * FROM board_tbl WHERE bno = #{bno}
+	</select>
 </mapper>

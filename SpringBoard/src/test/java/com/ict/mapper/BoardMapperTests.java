@@ -58,7 +58,7 @@ public class BoardMapperTests {
 		mapper.delete(3L);
 		log.info(mapper.getList());
 	}
-	@Test
+	//@Test
 	public void testUpdate() {
 		BoardVO vo = new BoardVO();
 		
@@ -68,6 +68,11 @@ public class BoardMapperTests {
 		vo.setBno(2L);
 		mapper.update(vo);
 		log.info(mapper.getList());
+	}
+	
+	@Test
+	public void testBoardDetail() {
+		mapper.boardDetail(3L);
 	}
 
 }
