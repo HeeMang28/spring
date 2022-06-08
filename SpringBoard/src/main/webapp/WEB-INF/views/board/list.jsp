@@ -24,7 +24,7 @@
 			<c:forEach var="board" items="${boardList }">
 				<tr>
 					<td>${board.bno}</td>
-					<td>${board.title}</td>
+					<td><a href="/board/detail?bno=${board.bno}">${board.title}</a></td>
 					<td>${board.content}</td>
 					<td>${board.writer}</td>
 					<td>${board.regdate}</td>
@@ -33,5 +33,7 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<hr/>
+	<a href="/board/insert"><button class="btn btn-primary">글쓰기</button></a>
 </body>
 </html>
