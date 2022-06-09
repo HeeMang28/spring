@@ -20,9 +20,9 @@ public class BoardSeriveTests {
 	@Autowired
 	private BoardService service;
 	
-	//@Test
-	public void testGetList() {
-		log.info(service.getList());
+	@Test
+	public void testGetList(Long pageNum) {
+		//log.info(service.getList(5L));
 	}
 	
 	//@Test
@@ -35,7 +35,6 @@ public class BoardSeriveTests {
 		
 		// log.info(vo);
 		service.insert(vo);
-		log.info(service.getList());
 	}
 	
 	//@Test

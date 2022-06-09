@@ -3,6 +3,7 @@ package com.ict.service;
 import java.util.List;
 
 import com.ict.persistence.BoardVO;
+import com.ict.persistence.Criteria;
 
 public interface BoardService {
 	
@@ -12,7 +13,7 @@ public interface BoardService {
 	// 현재는 그냥 로직별로 하나씩 메서드를 만들어주시면 됩니다.
 	// 단, 나중에 사용자에게는 글삭제 이지만, 백로직에서는 글과 댓글이 모두 삭제된다던지... 하는 식으로
 	// 사용자 기준의 하나의 동작과 로직개념적 하나의 동작이 일치하지 않을수도 있으니 주의해야합니다.
-	public List<BoardVO> getList();
+	public List<BoardVO> getList(Criteria cri);
 	
 	// insert로직 역시 mapper 쪽의 insert를 실행해줄 수 있는 메서드를 만드는게 먼저입니다.
 	public void insert(BoardVO vo);

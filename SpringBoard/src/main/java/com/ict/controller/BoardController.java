@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ict.persistence.BoardVO;
+import com.ict.persistence.Criteria;
 import com.ict.service.BoardService;
 
 import lombok.extern.log4j.Log4j;
@@ -32,11 +34,11 @@ public class BoardController {
 	// /board/list 주소로 게시물 전체의 목록을 표현하는 컨트롤러를 만들어 주세요.
 	// list.jsp로 연결되면 되고, getList() 메서드로 가져온 전체 글 목록을
 	// 포워딩해서 화면에 뿌려주면, 글번호, 글제목, 글쓴이, 날짜, 수정날짜를 화면에 출력해줍니다.
-	@RequestMapping(value= "/list",
-			method = {RequestMethod.GET, RequestMethod.POST})
-	public String getBoardList(Model model) {
+	@RequestMapping("/list")
+							//@RequestParam의 defaultValue를 통해 값이 안들어올때 자동으로 배정할 값을 정할수 있음
+	public String getBoardList(Criteria cri, Model model) {
 		// 글 전체 목록 가져오기
-		List<BoardVO> boardList = service.getList();
+		List<BoardVO> boardList = service.getList(cri);
 		// 바인딩
 		model.addAttribute("boardList", boardList);
 		// 리턴 구문을 적어서 원하는 파일로 데이터 보내기.
@@ -99,8 +101,9 @@ public class BoardController {
 	
 	@PostMapping("/update")
 	public String updateBoard(BoardVO board) {
-		log.info(board);
+		// 받아온 vo를 이용해 update를 실행한 다음
 		service.update(board);
+		// 해당 글 번호의 디테일 페이지로 들어가서 수정 여부를 바로 확인할 수 있게 도와줍니다.
 		return "redirect:/board/detail?bno=" + board.getBno();
 	}
 }

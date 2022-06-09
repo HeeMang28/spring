@@ -26,10 +26,10 @@ public class BoardMapperTests {
 	
 	// 테스트용 메서드의 이름은 testGetList입니다.
 	// 테스트 코드가 실행될 수 있도록 만들어주세요.
-	//@Test
-	public void testGetList() {
+	@Test
+	public void testGetList(Long pageNum) {
 		// mapper 내부의 getList 메서드를 호출하려면?
-		log.info(mapper.getList());
+		//log.info(mapper.getList());
 	}
 	//@Test
 	public void testInsert() {
@@ -56,7 +56,6 @@ public class BoardMapperTests {
 	// @Test
 	public void testDelete() {
 		mapper.delete(3L);
-		log.info(mapper.getList());
 	}
 	//@Test
 	public void testUpdate() {
@@ -67,7 +66,6 @@ public class BoardMapperTests {
 		vo.setWriter("업뎃작성자2");
 		vo.setBno(2L);
 		mapper.update(vo);
-		log.info(mapper.getList());
 	}
 	
 	@Test
