@@ -15,6 +15,7 @@ public interface BoardService {
 	// 사용자 기준의 하나의 동작과 로직개념적 하나의 동작이 일치하지 않을수도 있으니 주의해야합니다.
 	public List<BoardVO> getList(Criteria cri);
 	
+	public Long getBoardCount();
 	// insert로직 역시 mapper 쪽의 insert를 실행해줄 수 있는 메서드를 만드는게 먼저입니다.
 	public void insert(BoardVO vo);
 	

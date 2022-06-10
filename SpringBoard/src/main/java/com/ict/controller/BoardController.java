@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ict.persistence.BoardVO;
 import com.ict.persistence.Criteria;
+import com.ict.persistence.PageMaker;
+import com.ict.persistence.SearchCriteria;
 import com.ict.service.BoardService;
 
 import lombok.extern.log4j.Log4j;
@@ -36,11 +38,22 @@ public class BoardController {
 	// 포워딩해서 화면에 뿌려주면, 글번호, 글제목, 글쓴이, 날짜, 수정날짜를 화면에 출력해줍니다.
 	@RequestMapping("/list")
 							//@RequestParam의 defaultValue를 통해 값이 안들어올때 자동으로 배정할 값을 정할수 있음
-	public String getBoardList(Criteria cri, Model model) {
+	public String getBoardList(SearchCriteria cri, Model model) {
+		if(cri.getPage() == 0 ) {
+			cri.setPage(1);
+		}
 		// 글 전체 목록 가져오기
 		List<BoardVO> boardList = service.getList(cri);
 		// 바인딩
 		model.addAttribute("boardList", boardList);
+		//model.addAttribute("boardList", service.get());
+		
+		// 페이지네이터 그리기 위해 처리 정보도 같이 전달하기
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		// pageMaker.setTotalBoard(131);
+		pageMaker.setTotalBoard(service.getBoardCount());
+		model.addAttribute("pageMaker", pageMaker);
 		// 리턴 구문을 적어서 원하는 파일로 데이터 보내기.
 		return "/board/list";
 	}

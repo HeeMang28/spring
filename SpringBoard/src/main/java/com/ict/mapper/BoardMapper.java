@@ -12,6 +12,7 @@ public interface BoardMapper {
 	// @Select("SELECT * FROM board_tbl WHERE bno < 4")
 	public List<BoardVO> getList(Criteria cri);
 	
+	public Long getBoardCount();
 	// insert구문 실행용으로 메서드를 선언합니다.
 	// VO내부에 적혀있는 정보를 이용해 insert를 합니다.
 	// BoardVO를 매개로 insert 정보를 전달받음.

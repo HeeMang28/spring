@@ -35,5 +35,63 @@
 	</table>
 	<hr/>
 	<a href="/board/insert"><button class="btn btn-primary">글쓰기</button></a>
+	<ul class="pagination justify-content-center">
+		<c:if test="${pageMaker.prev }">
+			<li class="page-item">
+				<a class="page-link" href="/board/list?page=${pageMaker.startPage - 1}">&laquo; </a>
+			</li>
+		</c:if>
+		<c:forEach begin="${pageMaker.startPage }" end ="${pageMaker.endPage }" var="pNum">
+			<li class="page-item
+			<c:out value="${pageMaker.cri.page == pNum ? 'active' : '' }" />">
+				<a class="page-link" href="/board/list?page=${pNum }&searchType=${cri.searchType}&keyword=${cri.keyword}">${pNum }</a></li>
+		</c:forEach>
+		<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
+			<li class="page-item">
+				<a class="page-link" href="/board/list?page=${pageMaker.endPage +1 }">&raquo;</a>
+			</li>
+		</c:if>
+	</ul>
+	<!--  검색창 -->
+	<form action="/board/list" method="get">
+	<!-- option태그를 이용해 검색조건 선택창을 만들어주세요. -->
+		<select name="searchType">
+			<option value="n" <c:out value="${btnMaker.cri.searchType == null ? 'selected' : '' }" />>
+			-
+			</option>
+			<option value="t" <c:out value="${btnMaker.cri.searchType eq 't' ? 'selected' : '' }" />>
+			제목
+			</option>
+			<option value="c" <c:out value="${btnMaker.cri.searchType eq 'c' ? 'selected' : '' }" />>
+			본문
+			</option>
+			<option value="w" <c:out value="${btnMaker.cri.searchType eq 'w' ? 'selected' : '' }" />>
+			글쓴이
+			</option>
+			<option value="tc" <c:out value="${btnMaker.cri.searchType eq 'tc' ? 'selected' : '' }" />>
+			제목 + 본문
+			</option>
+			<option value="cw" <c:out value="${btnMaker.cri.searchType eq 'cw' ? 'selected' : '' }" />>
+			본문 + 글쓴이
+			</option>
+			<option value="tcw" <c:out value="${btnMaker.cri.searchType eq 'tcw' ? 'selected' : '' }" />>
+			제목 + 본문 + 글쓴이 
+			</option>
+		</select>
+		
+		<input type="text" name="keyword" id="keywordInput" value="${cri.keyword }">
+		<button id="searchBtn">Search</button><br/>
+	</form>
+	<script>
+		// 검색버튼 작동
+		$('#searchBtn').on("click", function(event){
+			
+			self.location = "list"
+				+ "?page=1"
+				+ "&searchType="
+				+ $("select option:selected").val()
+				+ "&keyword=" + $("#keywordInput").val(); 
+		})
+	</script>
 </body>
 </html>

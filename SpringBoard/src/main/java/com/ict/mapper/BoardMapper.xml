@@ -17,6 +17,12 @@
 		]]>
 	</select>
 	
+	<select id="getBoardCount" resultType="Long">
+		<![CDATA[
+			SELECT COUNT(bno) FROM board_tbl WHERE bno > 0
+		]]>
+	</select>
+	
 	<!--  현재 insert는 BoardVO로 파라미터로 받고 있습니다.
 	이 경우, VO 내부 변수를 #{변수명} 으로 쿼리문에 전달할 수 있습니다.
 	${변수명} 이 아님을 주의해주세요. -->
