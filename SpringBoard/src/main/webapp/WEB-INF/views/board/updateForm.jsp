@@ -13,6 +13,9 @@
 	내용 : <textarea name="content" >${board.content }</textarea> <br/>
 	쓴 날짜 : <input type="text" name="regdate" value="${board.regdate }" readonly> <br/>
 	<input type="hidden" name="bno" value="${board.bno }">
+	<input type="hidden" name="page" value="${param.page }">
+	<input type="hidden" name="searchType" value="${param.searchType }">
+	<input type="hidden" name="keyword" value="${param.keyword }">
 	<input type="submit" value="수정하기">
 	</form>
 	<form action="/board/list" method="get">

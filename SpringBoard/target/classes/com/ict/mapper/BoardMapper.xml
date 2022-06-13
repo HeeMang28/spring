@@ -4,6 +4,37 @@
 <!--  위의 스키마 작성 후, 어떤 인터페이스의 메서드를 쿼리문과
 연결해 줄지 아래와 같이 인터페이스 파일부터 mapper태그로 연결합니다. -->
 <mapper namespace="com.ict.mapper.BoardMapper">
+	    <sql id="search">
+    	<if test="searchType != null">
+    		<if test="searchType == 't'.toString()">
+    			(TITLE like '%'||#{keyword}||'%') AND
+    		</if>
+    		<if test="searchType == 'c'.toString()">
+    			(CONTENT like '%'||#{keyword}||'%') AND
+    		</if>
+    		<if test="searchType == 'w'.toString()">
+    			(WRITER like '%'||#{keyword}||'%') AND
+    		</if>
+    		<if test="searchType == 'tc'.toString()">
+    			((TITLE like '%'||#{keyword}||'%')
+    				OR
+    			(CONTENT like '%'||#{keyword}||'%')) AND
+    		</if>
+    		<if test="searchType == 'cw'.toString()">
+    			((CONTENT like '%'||#{keyword}||'%')
+    				OR
+    			(WRITER like '%'||#{keyword}||'%')) AND
+    		</if>
+    		<if test="searchType == 'tcw'.toString()">
+    			((TITLE like '%'||#{keyword}||'%')
+    				OR
+    			(CONTENT like '%'||#{keyword}||'%')
+    				OR
+    			(WRITER like '%'||#{keyword}||'%')) AND
+    		</if>
+    	</if>
+    	<!--  아래부터는 MySQL의 limit 역할을 하는 부분 -->
+    </sql>
 	<select id="getList" resultType="com.ict.persistence.BoardVO">
 	<!--  <이나 > 과 같이 태그로 오인될 수 있는 문자를 포함하는
 	쿼리문은 그냥 작성하지 않고, CDATA를 이용합니다.
@@ -11,16 +42,31 @@
 	CDATA내부에 작성하면 내부의 부등호는 전부 문자로 간주됩니다. -->
 	<![CDATA[
 		SELECT * FROM 
-		(select /* + INDEX_DESC(board_tbl pk_board) */
-		rownum rn, board_tbl.* from board_tbl WHERE rownum <= (${page}*10))
-    	WHERE rn > (${page}-1) * 10
+		(SELECT 
+		/* + INDEX_DESC(board_tbl pk_board) */
+		rownum rn, board_tbl.* FROM board_tbl 
+			WHERE 
 		]]>
+		
+    	<!--  동적 쿼리조건이 들어올 자리 -->
+    	<include refid="search"></include>
+    	<![CDATA[
+    		rownum <= (${page}*10))
+    		WHERE rn > (${page}-1) * 10
+    	]]>
 	</select>
-	
+
 	<select id="getBoardCount" resultType="Long">
-		<![CDATA[
-			SELECT COUNT(bno) FROM board_tbl WHERE bno > 0
-		]]>
+			<!--  여기에 sql 태그에 저장된 조건절 넣기
+			기존 코드는 검색조건에 무관하게 전체 DB글만 가져왔으므로
+			검색조건에 따른 총 글 개수를 조건에 맞게 출력하도록 수정
+			검색조건은 searchType 변수를 전달받아야 하므로
+			컨트롤러, 서비스, 매퍼쪽에도 searchType을 받을 수 있게
+			getTotalBoard 호출 관련 메서드에 SearchCriteria를 전달합니다. -->
+			SELECT COUNT(*) FROM board_tbl WHERE 
+			<include refid="search"></include>
+			<!--  조건이 없을때도 WHERE절 뒤에  -->
+			bno > 0
 	</select>
 	
 	<!--  현재 insert는 BoardVO로 파라미터로 받고 있습니다.

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ict.persistence.BoardVO;
 import com.ict.persistence.Criteria;
@@ -52,7 +53,7 @@ public class BoardController {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		// pageMaker.setTotalBoard(131);
-		pageMaker.setTotalBoard(service.getBoardCount());
+		pageMaker.setTotalBoard(service.getBoardCount(cri));
 		model.addAttribute("pageMaker", pageMaker);
 		// 리턴 구문을 적어서 원하는 파일로 데이터 보내기.
 		return "/board/list";
@@ -113,10 +114,18 @@ public class BoardController {
 	}
 	
 	@PostMapping("/update")
-	public String updateBoard(BoardVO board) {
+	public String updateBoard(BoardVO board, SearchCriteria cri, RedirectAttributes rttr) {
 		// 받아온 vo를 이용해 update를 실행한 다음
 		service.update(board);
 		// 해당 글 번호의 디테일 페이지로 들어가서 수정 여부를 바로 확인할 수 있게 도와줍니다.
+		
+		// rttr.addAttribute("파라미터명", "전달자료")
+		// 는 호출되면 redirect 주소 뒤에 파라미터를 붙여줍니다.
+		// rttr.addFlashAttribute()는 넘어간 페이지에서 파라미터를
+		// 쓸 수 있도록 전달하는 것으로 둘의 역할이 다르니 주의해주세요.
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("searchType", cri.getSearchType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		return "redirect:/board/detail?bno=" + board.getBno();
 	}
 }

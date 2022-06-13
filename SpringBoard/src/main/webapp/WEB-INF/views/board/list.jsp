@@ -3,6 +3,7 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <head>
@@ -24,7 +25,7 @@
 			<c:forEach var="board" items="${boardList }">
 				<tr>
 					<td>${board.bno}</td>
-					<td><a href="/board/detail?bno=${board.bno}">${board.title}</a></td>
+					<td><a href="/board/detail?bno=${board.bno}&page=${pageMaker.cri.page}&searchType=${pageMakger.cri.searchType}&keyword=${pageMaker.cri.keyword}&page=${pageMaker.cri.page}">${board.title}</a></td>
 					<td>${board.content}</td>
 					<td>${board.writer}</td>
 					<td>${board.regdate}</td>
@@ -38,17 +39,17 @@
 	<ul class="pagination justify-content-center">
 		<c:if test="${pageMaker.prev }">
 			<li class="page-item">
-				<a class="page-link" href="/board/list?page=${pageMaker.startPage - 1}">&laquo; </a>
+				<a class="page-link" href="/board/list?page=${pageMaker.startPage - 1}&searchType=${pageMaker.cri.searchType}&keyword=${pageMaker.cri.keyword}">&laquo; </a>
 			</li>
 		</c:if>
 		<c:forEach begin="${pageMaker.startPage }" end ="${pageMaker.endPage }" var="pNum">
 			<li class="page-item
 			<c:out value="${pageMaker.cri.page == pNum ? 'active' : '' }" />">
-				<a class="page-link" href="/board/list?page=${pNum }&searchType=${cri.searchType}&keyword=${cri.keyword}">${pNum }</a></li>
+				<a class="page-link" href="/board/list?page=${pNum }&searchType=${pageMaker.cri.searchType}&keyword=${pageMaker.cri.keyword}">${pNum }</a></li>
 		</c:forEach>
 		<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
 			<li class="page-item">
-				<a class="page-link" href="/board/list?page=${pageMaker.endPage +1 }">&raquo;</a>
+				<a class="page-link" href="/board/list?page=${pageMaker.endPage +1 }&searchType=${pageMaker.cri.searchType}&keyword=${pageMaker.cri.keyword}">&raquo;</a>
 			</li>
 		</c:if>
 	</ul>
@@ -91,7 +92,8 @@
 				+ "&searchType="
 				+ $("select option:selected").val()
 				+ "&keyword=" + $("#keywordInput").val(); 
-		})
+		});
 	</script>
+	${pageMaker }
 </body>
 </html>
