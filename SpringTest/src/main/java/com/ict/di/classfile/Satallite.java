@@ -13,7 +13,6 @@ public class Satallite {
 		this.broadcast = broadcast;
 	}
 	public void satelliteBroad() {
-		System.out.print("À§¼º");
 		broadcast.broad();
 	}
 }
