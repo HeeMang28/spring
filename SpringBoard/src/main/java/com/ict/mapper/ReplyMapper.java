@@ -13,6 +13,6 @@ public interface ReplyMapper {
 	
 	public void update(ReplyVO vo);
 	
-	public void delete(Long bno);
+	public void delete(Long rno);
 
 }

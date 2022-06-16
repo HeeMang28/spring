@@ -5,8 +5,8 @@
 
 <mapper namespace="com.ict.mapper.ReplyMapper">
 	<select id="getList" resultType="com.ict.persistence.ReplyVO">
-		SELECT * FROM relpy_tbl
-		WEHRE bno = #{bno}
+		SELECT * FROM reply_tbl
+			WHERE bno = #{bno}
 		ORDER BY rno DESC
 	</select>
 	
