@@ -19,7 +19,7 @@
 	
 	<update id="update">
 	<!--  리플같은경우 제목이 없고 본문만 있기 때문에 이렇게 처리 -->
-		UPDATED reply_tbl
+		UPDATE reply_tbl
 			SET
 		reply = #{reply}, updateDate = SYSDATE
 		WHERE rno = #{rno}
