@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ict.persistence.ReplyVO;
 import com.ict.service.ReplyService;
 
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 @RestController
 @RequestMapping("/replies")
 public class ReplyController {
@@ -41,11 +44,10 @@ public class ReplyController {
 		
 		//깡통 Entity를 먼저 생성
 		ResponseEntity<String> entity = null;
-		
 		try {
 			// 먼저 글쓰기 로직 실행 후 에러가 없다면...
 			service.addReply(vo);
-			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		} catch(Exception e) {
 			//catch로 넘어왔다는것은 글쓰기에 문제가 생겼다는 뜻이므로
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
