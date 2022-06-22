@@ -131,6 +131,8 @@
 			$("#modDiv").show("slow");
 		}); // 댓글 삽입
 		
+		// delete.js 내부에 코드를 모두 작성한 다음 link태그를 이용해 인식만 시켜주세요.
+		// <link  href="/resources/resttest/delete.js">
 	</script>
 </body>
 </html>
