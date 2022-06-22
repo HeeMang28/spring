@@ -1,3 +1,4 @@
+// 삭제버튼 이벤트
 $("#replyDelBtn").on("click",function(){
 	let rno = $(".modal-title").html();
 	
@@ -13,7 +14,9 @@ $("#replyDelBtn").on("click",function(){
 			console.log("result: " + result);
 			if(result == 'SUCCESS') {
 				alert("삭제 되었습니다.");
+				// 모달닫기
 				$("#modDiv").hide("slow");
+				// 삭제된 이후 목록 가져와서 갱신하기
 				getAllList();
 			}
 		}
