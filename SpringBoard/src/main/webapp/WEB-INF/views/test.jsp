@@ -71,8 +71,9 @@
 						// 원래는 \를 왼쪽에 붙일 필요는 없지만
 						// jsp에서는 el표기문법이랑 겹치기 때문에 el이 아님을 보여주기 위해
 						// 추가로 \를 붙입니다.
-						str += `<li data-rno= '\${this.rno}' class='replyLi'>\${this.rno} : \${this.reply} 
-							<button>수정/삭제</button></li>`;
+						str += `<div clas='replyLi' data-rno='\${this.rno}'><strong>@'\${this.replyer}'</strong> - 'formattedTime' <br/>
+						<div class='replytext'>'\${this.reply}'</div>
+						<button type='button' class='btn btn-info'>수정/삭제</button></div>`;
 					});
 					$("#replies").html(str);
 				});
@@ -130,6 +131,7 @@
 			$("#replyText").val(replytext);
 			$("#modDiv").show("slow");
 		}); // 댓글 삽입
+		
 		
 	</script>
 	<!--  delete.js 내부에 코드를 모두 작성한 다음 script태그를 이용해 인식만 시켜주세요. 
