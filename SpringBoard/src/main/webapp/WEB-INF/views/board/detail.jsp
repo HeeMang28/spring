@@ -31,14 +31,19 @@
 	</div><!-- /.row -->
 	
 	<!--  댓글쓰기 -->
-	<div>
-		<div>
-			REPLYER <input type="text" name="replyer" id="newReplyWriter">
+	<div class="row box-box-success">
+		<div class="box-header">
+			<h2 class="text-primary">댓글 작성</h2>
+		</div><!-- header -->
+		<div class="box-body">
+			<strong>Writer</strong>
+			<input type="text" placeholder="Replyer" id="newReplyWriter" class="form-control">
+			<strong>ReplyText</strong>
+			<input type="text" placeholder="ReplyText" id="newReplyText" class="form-control">>
 		</div>
-		<div>
-			REPLY TEXT <input type="text" name="reply" id="newReplyText">
+		<div class="box-footer">
+		<button type="button" class="btn btn-success" id="replyAddBtn">ADD REPLY</button>
 		</div>
-		<button id="replyAddBtn">ADD REPLY</button>
 	</div>
 		<div id="modDiv" style="display:none;">
 			<div class="modal-title"></div>
@@ -90,7 +95,7 @@
 													\${date.getDate()}일`;
 						
 						str += 
-							`<div clas='replyLi' data-rno='\${this.rno}'>
+							`<div class='replyLi' data-rno='\${this.rno}'>
 							<strong>@\${this.replyer}</strong> - \${formattedTime}<br/>
 							<div class='replytext'>\${this.reply}</div>
 							<button type='button' class='btn btn-info'>수정/삭제</button>
@@ -137,17 +142,19 @@
 			// 1. prev().prev()... 등과 같이 연쇄적으로 prev, next를 걸어서 고르기
 			// 2. prev("태그선택자")를 써서 뒤쪽이나 앞쪽 형제 중 조건에 맞는것만 선택
 			// 3. siblings("태그선택자")는 next, prev 모두를 범위로 조회합니다.
-			let reply = $(this).siblings(".replytext");
-			// 화살표 함수는 this 키워드를 쓰지 않을때만 사용 가능하다. 여기서 this는 버튼이다
-			// .attr("태그 내 속성명") => 해당 속성에 부여된 값을 가져옵니다.
-			// ex) <li data-rno="33"> => rno에 33을 저장해줍니다.
-			let rno = reply.attr("data-rno");
-			let replytext = reply.text();
-			
-			$(".modal-title").html(rno);
-			$("#replyText").val(replytext);
-			$("#modDiv").show("slow");
-		});
+			// let reply = $(this).siblings(".replytext");
+				// 4. 함수 내부으 this는 내가 클릭한 button이 됩니다.
+				let reply = $(this).parent();
+				// 화살표 함수는 this 키워드를 쓰지 않을때만 사용 가능하다. 여기서 this는 버튼이다
+				// .attr("태그 내 속성명") => 해당 속성에 부여된 값을 가져옵니다.
+				// ex) <li data-rno="33"> => rno에 33을 저장해줍니다.
+				let rno = reply.attr("data-rno");
+				let replytext = $(this).prev().html()// 본문만 가져오도록 살짝 수정해주세요.
+				
+				$(".modal-title").html(rno);
+				$("#replyText").val(replytext);
+				$("#modDiv").show("slow");
+			});
 	</script>
 	<script src="/resources/resttest/delete.js" ></script>
 	<script src="/resources/resttest/modify.js"></script>

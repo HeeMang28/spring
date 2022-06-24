@@ -57,30 +57,30 @@
 	<form action="/board/list" method="get">
 	<!-- option태그를 이용해 검색조건 선택창을 만들어주세요. -->
 		<select name="searchType">
-			<option value="n" <c:out value="${btnMaker.cri.searchType == null ? 'selected' : '' }" />>
+			<option value="n" <c:out value="${pageMaker.cri.searchType == null ? 'selected' : '' }" />>
 			-
 			</option>
-			<option value="t" <c:out value="${btnMaker.cri.searchType eq 't' ? 'selected' : '' }" />>
+			<option value="t" <c:out value="${pageMaker.cri.searchType eq 't' ? 'selected' : '' }" />>
 			제목
 			</option>
-			<option value="c" <c:out value="${btnMaker.cri.searchType eq 'c' ? 'selected' : '' }" />>
+			<option value="c" <c:out value="${pageMaker.cri.searchType eq 'c' ? 'selected' : '' }" />>
 			본문
 			</option>
-			<option value="w" <c:out value="${btnMaker.cri.searchType eq 'w' ? 'selected' : '' }" />>
+			<option value="w" <c:out value="${pageMaker.cri.searchType eq 'w' ? 'selected' : '' }" />>
 			글쓴이
 			</option>
-			<option value="tc" <c:out value="${btnMaker.cri.searchType eq 'tc' ? 'selected' : '' }" />>
+			<option value="tc" <c:out value="${pageMaker.cri.searchType eq 'tc' ? 'selected' : '' }" />>
 			제목 + 본문
 			</option>
-			<option value="cw" <c:out value="${btnMaker.cri.searchType eq 'cw' ? 'selected' : '' }" />>
+			<option value="cw" <c:out value="${pageMaker.cri.searchType eq 'cw' ? 'selected' : '' }" />>
 			본문 + 글쓴이
 			</option>
-			<option value="tcw" <c:out value="${btnMaker.cri.searchType eq 'tcw' ? 'selected' : '' }" />>
+			<option value="tcw" <c:out value="${pageMaker.cri.searchType eq 'tcw' ? 'selected' : '' }" />>
 			제목 + 본문 + 글쓴이 
 			</option>
 		</select>
 		
-		<input type="text" name="keyword" id="keywordInput" value="${cri.keyword }">
+		<input type="text" name="keyword" id="keywordInput" value="${pageMaker.cri.keyword }">
 		<button id="searchBtn">Search</button><br/>
 	</form>
 	<script>
