@@ -21,7 +21,7 @@ public class SecurityController {
 		log.info("회원들이 접속 가능한 member 로직");
 	}
 	
-	@GetMapping("admin")
+	@GetMapping("/admin")
 	public void doAdmin() {
 		log.info("운영자만 접속 가능한 admin 로직");
 	}
