@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h1>member 주소</h1>
+	<a href="/customLogout">로그아웃</a>
 </body>
 </html>
