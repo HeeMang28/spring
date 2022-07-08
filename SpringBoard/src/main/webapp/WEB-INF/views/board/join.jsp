@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h1>회원가입창</h1>
-	<form action="/secu/join" method="post">
+	<form action="/board/join" method="post">
 		아이디 : <input type="text" name="userid"><br/>
 		비밀번호 : <input type="text" name="userpw"><br/>
 		이름 : <input type="text" name="userName"><br/>

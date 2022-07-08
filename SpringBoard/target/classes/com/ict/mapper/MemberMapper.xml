@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ict.mapper.MemberMapper">
-	<resultMap type="com.ict.domain.MemberVO" id="memberMap">
+	<resultMap type="com.ict.persistence.MemberVO" id="memberMap">
 
 		<id property="userid" column="userid" />
 		<result property="userid" column="userid" />
@@ -15,7 +15,7 @@
 		</collection>
 	</resultMap>
 	
-	<resultMap type="com.ict.domain.AuthVO" id="authMap">
+	<resultMap type="com.ict.persistence.AuthVO" id="authMap">
 		<result property="userid" column="userid" />
 		<result property="auth" column="auth" />		
 	</resultMap>

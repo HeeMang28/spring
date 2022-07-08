@@ -1,4 +1,4 @@
-package com.ict.domain;
+package com.ict.persistence;
 
 import lombok.Data;
 

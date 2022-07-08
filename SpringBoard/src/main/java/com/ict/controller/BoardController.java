@@ -1,8 +1,11 @@
 package com.ict.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ict.persistence.AuthVO;
 import com.ict.persistence.BoardVO;
 import com.ict.persistence.Criteria;
+import com.ict.persistence.MemberVO;
 import com.ict.persistence.PageMaker;
 import com.ict.persistence.SearchCriteria;
 import com.ict.service.BoardService;
+import com.ict.service.SecurityService;
 
 import lombok.extern.log4j.Log4j;
 
@@ -34,6 +40,14 @@ public class BoardController {
 	@Autowired
 	private BoardService service;
 	
+	@Autowired
+	private SecurityService secuService;
+	
+	@Autowired
+	private PasswordEncoder pwen;
+	
+	@PreAuthorize("permitAll")
+	// @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	// /board/list 주소로 게시물 전체의 목록을 표현하는 컨트롤러를 만들어 주세요.
 	// list.jsp로 연결되면 되고, getList() 메서드로 가져온 전체 글 목록을
 	// 포워딩해서 화면에 뿌려주면, 글번호, 글제목, 글쓴이, 날짜, 수정날짜를 화면에 출력해줍니다.
@@ -65,7 +79,7 @@ public class BoardController {
 	// getBoardList처럼 포워딩해서 화면에 해당 글 하나에 대한 정보만 보여주면 됩니다.
 	// mapper쪽에 먼저 bno를 이용해 특정 글 하나의 VO만 얻어오는 로직을 만들고
 	// 쿼리문까지 연결해주세요.
-	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER', 'ROLE_USER')")
 	@GetMapping(value= "/detail")
 	public String getBoardDetail(Long bno, Model model) {
 		BoardVO board = service.boardDetail(bno);
@@ -79,11 +93,13 @@ public class BoardController {
 	// /board/insert 를 get방식으로 접속시
 	// bardForm.jsp로 연결되도록 만들어주세요.
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@GetMapping("/insert")
 	public String insertForm() {
 		return "/board/boardForm";
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	// post방식으로 /insert로 들어오는 자료를 받아 콘솔에 찍어주세요.
 	@PostMapping("/insert")
 	public String insertBoard(BoardVO board) {
@@ -95,6 +111,7 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	// 글삭제도 post방식으로 처리하도록 합니다.
 	@PostMapping("/delete")
 	public String deleteBoard(Long bno) {
@@ -104,6 +121,7 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@PostMapping("/updateForm")
 	public String updateForm(Long bno, Model model) {
 		// 해당 bno의 글 정보만 뽑아서 저장한 다음
@@ -113,6 +131,7 @@ public class BoardController {
 		return "/board/updateForm";
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@PostMapping("/update")
 	public String updateBoard(BoardVO board, SearchCriteria cri, RedirectAttributes rttr) {
 		// 받아온 vo를 이용해 update를 실행한 다음
@@ -127,5 +146,30 @@ public class BoardController {
 		rttr.addAttribute("searchType", cri.getSearchType());
 		rttr.addAttribute("keyword", cri.getKeyword());
 		return "redirect:/board/detail?bno=" + board.getBno();
+	}
+	
+	@PreAuthorize("permitAll")
+	@GetMapping("/join")
+	public void joinForm() {
+		log.info("회원가입창 접속");
+	}
+	
+	@PreAuthorize("permitAll")
+	@PostMapping("/join")
+	public void join(MemberVO vo, String[] role) {
+		
+		String beforeCrpw = vo.getUserpw();
+		vo.setUserpw(pwen.encode(beforeCrpw));
+		vo.setAuthList(new ArrayList<AuthVO>());
+
+		for(String roleItem : role) {
+			AuthVO authVO = new AuthVO();
+			authVO.setAuth(roleItem);
+			authVO.setUserid(vo.getUserid());
+			
+			vo.getAuthList().add(authVO);
+		}
+		
+		secuService.insertMember(vo);
 	}
 }

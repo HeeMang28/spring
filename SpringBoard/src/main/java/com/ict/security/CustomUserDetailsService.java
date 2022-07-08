@@ -5,9 +5,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.ict.domain.CustomUser;
-import com.ict.domain.MemberVO;
 import com.ict.mapper.MemberMapper;
+import com.ict.persistence.CustomUser;
+import com.ict.persistence.MemberVO;
 
 import lombok.extern.log4j.Log4j;
 

@@ -3,8 +3,8 @@ package com.ict.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ict.domain.MemberVO;
 import com.ict.mapper.MemberMapper;
+import com.ict.persistence.MemberVO;
 
 @Service
 public class SecurityServiceImpl implements SecurityService {

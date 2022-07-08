@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -11,7 +12,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>boardList </h1>
+	<h1 class="row justify-content-md-center">boardList </h1>
+	
+	<sec:authorize access="isAnonymous()">
+	<a href="/board/join">회원가입</a>
+	</sec:authorize>
 	<table class="table table-hover">
 		<thead>
 			<th>글번호</th>

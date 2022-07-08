@@ -1,4 +1,4 @@
-package com.ict.domain;
+package com.ict.persistence;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

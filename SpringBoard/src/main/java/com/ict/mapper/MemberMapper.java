@@ -1,6 +1,6 @@
 package com.ict.mapper;
 
-import com.ict.domain.MemberVO;
+import com.ict.persistence.MemberVO;
 
 public interface MemberMapper {
 	
