@@ -14,6 +14,12 @@
 		<input type="file" name="uploadFile" multiple>
 	</div>
 	
+	<div class="uploadResult">
+		<ul>
+			<!--  업로드 된 파일들이 여기 나열됨. -->
+		</ul>
+	</div>
+	
 	<button id="uploadBtn">Upload</button>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -36,6 +42,8 @@
 				}
 				return true;
 			}
+			
+			var cloneObj = $(".uploadDiv").clone();
 			
 			$('#uploadBtn').on("click", function(e){
 				
@@ -62,16 +70,35 @@
 				}
 				
 				$.ajax({
-					url: '/uploadAjaxAction',
+					url: '/uploadFormAction',
 					processData: false,
 					contentType: false,
 					data: formData,
 					type: 'POST',
+					dataType:'json',
 					success: function(result){
-						alert("Uploaded");
+						console.log(result);
+						
+						showUploadedFile(result);
+						
+						$(".uploadDiv").html(cloneObj.html());
 					}
 				}); // ajax
 			}); // uploadBtn.onclick
+			
+			var uploadResult = $(".uploadResult ul");
+			
+			function showUploadedFile(uploadResultArr) {
+				var str = "";
+				
+				$(uploadResultArr).each(function(i, obj){
+					
+					str += `<li>\${obj.fileName}</li>`;
+				});
+				
+				uploadResult.append(str);
+			} // showUploadedFile
+			
 		}); // document ready
 	</script>
 </body>
