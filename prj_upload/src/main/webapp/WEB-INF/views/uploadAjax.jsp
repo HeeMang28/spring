@@ -126,6 +126,19 @@
 				uploadResult.append(str);
 			} // showUploadedFile
 			
+			$(".uploadResult").on("click", "span", function(e){
+				// 파일 이름을 span태그 내부의 data-file에서 얻어와서 저장
+				let targetFile = $(this).data("file");
+				// 이미지 여부를 span태그 내부의 data-type에서 얻어와서 저장
+				let type = $(this).data("type");
+				
+				// 클릭한 span태그와 엮여있는 li를 targetLi에 저장
+				let targetLi = $(this).closest("li");
+				// 클릭한 li 요소를 화면에서 삭제함(파일은 남아있음.)
+				targetLi.remove();
+				
+			})
+			
 		}); // document ready
 	</script>
 </body>
