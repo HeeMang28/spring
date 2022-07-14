@@ -135,9 +135,17 @@
 				// 클릭한 span태그와 엮여있는 li를 targetLi에 저장
 				let targetLi = $(this).closest("li");
 				// 클릭한 li 요소를 화면에서 삭제함(파일은 남아있음.)
-				targetLi.remove();
-				
-			})
+				$.ajax({
+					url : '/deleteFile',
+					data: {fileName: targetFile, type:type},
+					dataType: 'text',
+					type: 'POST',
+					success: function(result){
+						alert(result);
+						targetLi.remove();
+					}
+				}); // ajax
+			}); // click span
 			
 		}); // document ready
 	</script>

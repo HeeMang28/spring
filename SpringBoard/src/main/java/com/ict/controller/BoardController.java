@@ -1,6 +1,11 @@
 package com.ict.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,16 +14,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ict.persistence.AuthVO;
 import com.ict.persistence.BoardVO;
-import com.ict.persistence.Criteria;
 import com.ict.persistence.MemberVO;
 import com.ict.persistence.PageMaker;
 import com.ict.persistence.SearchCriteria;
@@ -32,7 +33,7 @@ import lombok.extern.log4j.Log4j;
 //bean container에 넣어보세요. controller를 걸면 서블릿 컨테스트에 들어간다.
 // 주소 /board가 붙도록 처리해주세요.
 @Controller
-@RequestMapping("/board/")
+@RequestMapping("/board")
 @Log4j
 public class BoardController {
 	
@@ -45,6 +46,28 @@ public class BoardController {
 	
 	@Autowired
 	private PasswordEncoder pwen;
+	
+	private boolean checkImageType(File file) {
+		try {
+			String contentType = Files.probeContentType(file.toPath());
+			
+			return contentType.startsWith("image");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	private String getFolder() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Date date = new Date();
+		
+		String str = sdf.format(date);
+		
+		return str.replace("-", File.separator);
+		
+	}
 	
 	@PreAuthorize("permitAll")
 	// @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -172,4 +195,5 @@ public class BoardController {
 		
 		secuService.insertMember(vo);
 	}
+
 }
