@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,8 @@
 	제목 : <input type="text" name="title"> <br/>
 	글쓴이 : <input type="text" name="writer"> <br/>
 	내용 : <textarea name="content"></textarea> <br/>
-	<input type="submit" value="글쓰기">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }" />
+	<input type="submit" id="submitBtn" value="글쓰기">
 	</form>
 	<form action="/board/list" method="get">
 		<input type="submit" value="목록으로">
@@ -134,7 +136,9 @@
 								obj.uploadPath + "/"
 								+ obj.uuid + "_" + obj.fileName);
 						
-						str += `<li><a href='download?fileName=\${fileCallPath2}'>
+						str += `<li data-path='\${obj.uploadPath}' data-uuid='\${obj.uuid}'
+						data-filename='\${obj.fileName}' data-type='\${obj.fileType}'>
+						<a href='download?fileName=\${fileCallPath2}'>
 						<img src='/display?fileName=\${fileCallPath}'>\${obj.fileName}</a>
 						<span data-file='\${fileCallPath2}' data-type='image'> X </span>
 						</li>`;
@@ -167,6 +171,38 @@
 						}
 					}); // ajax
 				}); // click span
+				
+				$("#submitBtn").on("click", function(e){
+					// 1. 버튼 기능을 막으세요.
+					e.preventDefault();
+					
+					// 2. var formObj = $("form");로 폼태그를 가져옵니다.
+					let formObj = $("form");
+					
+					// 첨부파일과 관련된 정보를 hideen태그를 만들어 문자로 먼저 저장합니다.
+					let str = "";
+					
+					$(".uploadResult ul li").each(function(i, obj){
+						let jobj = $(obj);
+						
+						str += `<input type='hidden' name='attachList[\${i}].fileName'
+							value='\${jobj.data("filename")}'>
+							<input type='hidden' name='attachList[\${i}].uuid'
+							value='\${jobj.data("uuid")}'>
+							<input type='hidden' name='attachList[\${i}].uploadPath'
+							value='\${jobj.data("path")}'>
+							<input type='hidden' name='attachList[\${i}].fileType'
+							value='\${jobj.data("type")}'>`
+					});
+					console.log(str);
+					
+					// 4. formObj에 append를 이용해 str을 끼워넣습니다.
+					formObj.append(str);
+					
+					// 5. formObj.submit()을 이용해 제출기능이 실행되도록 합니다.
+					formObj.submit();
+					
+				});
 				
 			}); // document ready
 		</script>

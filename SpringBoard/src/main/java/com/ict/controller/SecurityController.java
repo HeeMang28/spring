@@ -23,7 +23,7 @@ import lombok.extern.log4j.Log4j;
 @Controller
 public class SecurityController {
 	
-	/* @Autowired
+	 @Autowired
 	private SecurityService service;
 	
 	@Autowired
@@ -78,7 +78,7 @@ public class SecurityController {
 		
 		// 향상된 for문을 이용해 role 변수에 든 권한을 하나하나 순차적으로 뽑아서
 		// ArrayList의 .add(자료) 기능을 이용해 넣어줍니다.
-		 /* for(String roleItem : role) {
+		  for(String roleItem : role) {
 			AuthVO authVO = new AuthVO();
 			authVO.setAuth(roleItem);
 			authVO.setUserid(vo.getUserid());
@@ -89,5 +89,5 @@ public class SecurityController {
 		}
 		
 		service.insertMember(vo); 
-	}  */
+	}  
 }

@@ -102,7 +102,7 @@ public class BoardController {
 	// getBoardList처럼 포워딩해서 화면에 해당 글 하나에 대한 정보만 보여주면 됩니다.
 	// mapper쪽에 먼저 bno를 이용해 특정 글 하나의 VO만 얻어오는 로직을 만들고
 	// 쿼리문까지 연결해주세요.
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER', 'ROLE_USER')")
+	//@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER', 'ROLE_USER')")
 	@GetMapping(value= "/detail")
 	public String getBoardDetail(Long bno, Model model) {
 		BoardVO board = service.boardDetail(bno);
@@ -116,18 +116,28 @@ public class BoardController {
 	// /board/insert 를 get방식으로 접속시
 	// bardForm.jsp로 연결되도록 만들어주세요.
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
+	//@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	@GetMapping("/insert")
 	public String insertForm() {
 		return "/board/boardForm";
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
+	//@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MEMBER')")
 	// post방식으로 /insert로 들어오는 자료를 받아 콘솔에 찍어주세요.
 	@PostMapping("/insert")
 	public String insertBoard(BoardVO board) {
+		
 		log.info(board);
 		service.insert(board);
+		
+		// 첨부파일 정보가 insert시 잘 들어오는지 디버깅
+		log.info("====================");
+		log.info("register : " + board);
+		
+		if(board.getAttachList() != null) {
+			board.getAttachList().forEach(attach -> log.info(attach));
+		}
+		
 		// redirect를 사용해야 전체 글 목록을 로딩해온 다음 화면을 열어줍니다.
 		// 스프링 컨트롤러에서 리다이렉트를 할 때는
 		// 목적주소 앞에 redirect: 을 추가로 붙입니다.
