@@ -7,6 +7,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <head>
+	<link rel="stylesheet" href="/resources/resttest/uploadResult.css">
 	<link rel="stylesheet" href="/resources/resttest/modal.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -24,6 +25,17 @@
 		</div>
 	</div>
 	<hr/>
+	
+	<!-- 첨부파일 영역 -->
+	<div class="row">
+		<h3 class="text-primary">첨부파일</h3>
+		<div id="uploadResult">
+			<ul>
+				<!-- 첨부파일이 들어갈 위치 -->
+			</ul>
+		</div>
+	</div>
+	
 	<!--  댓글달리는 영역 -->
 	<div class="row">
 		<h3 class="text-primary">댓글</h3>
@@ -58,9 +70,9 @@
 				<button type="button" id="closeBtn">Close</button>
 			</div>
 		</div>
-	<sec:authorize access="hasRole('ROLE_ADMIN','ROLE_MEMBER')">
 	<form action="/board/delete" method="post">
 		<input type="hidden" name="bno" value="${board.bno }">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }" />
 		<input type="submit" value="삭제하기">
 	</form>
 	<form action="/board/updateForm" method="post">
@@ -68,9 +80,9 @@
 		<input type="hidden" name="page" value="${param.page }">
 		<input type="hidden" name="searchType" value="${param.searchType }">
 		<input type="hidden" name="keyword" value="${param.keyword }">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }" />
 		<input type="submit" value="수정하기">
 	</form>
-	</sec:authorize>
 		<!--  jquery CDN -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		
@@ -136,7 +148,7 @@
 							$("#newReplyText").val('');
 							}
 					}
-				});
+				});	
 			});
 		
 		// 이벤트 위임
@@ -159,6 +171,50 @@
 				$("#replyText").val(replytext);
 				$("#modDiv").show("slow");
 			});
+			
+			// 익명함수 선언 및 호출
+			// 우선 함수이기 때문에 호출한다는 점을 명시하기 위해 마지막에 () 를 추가로 붙여준다.
+			(function(){
+				$.getJSON("/board/getAttachList", {bno:bno}, function(arr){
+					console.log(arr);
+					
+					let str = "";
+					
+					$(arr).each(function(i, attach){
+						// image type
+						if(attach.fileType){
+							let fileCallPath = encodeURIComponent (attach.uploadPath + "/s_" + attach.uuid
+													+ "_" + attach.fileName);
+							console.log(fileCallPath);
+							str += `<li data-path='\${attach.uploadPath}' data-uuid='\${attach.uuid}'
+									data-filename='\${attach.fileName}' data-type='\${attach.fileType}'>
+									<div><img src='/display?fileName=\${fileCallPath}'> </div>
+									</li>`;
+						} else {
+							// 이미지가 아닌 파일의 경우
+							str += `<li data-path='\${attach.uploadPath}' data-uuid='\${attach.uuid}'
+									data-filename='\${attach.fileName}' data-type='\${attach.fileType}'>
+									<div> <span>\${attach.fileName}</span><br/>
+									<img src='/resources/pngwing.com.png' width='100px' height='100px'>
+									</div>
+									</li>`;
+						}
+						
+					}); // .each 반복문 닫는 부분
+					// 위에서 str변수에 작성된 태그 형식을 화면에 끼워넣기
+					$("#uploadResult ul").html(str);
+				}); // end getJSON
+			})(); // end anonymous	
+			
+			$("#uploadResult").on("click", "li", finction(e){
+				let liObj = $(this);
+				
+				let path = encodeURIComponent(liObj.data("path") + "/" + liObj.data("uuid") + "_" + liObj.data("filename"));
+				
+				// download
+				self.location = "/download?fileName=" + path;
+			})
+		
 	</script>
 	<script src="/resources/resttest/delete.js" ></script>
 	<script src="/resources/resttest/modify.js"></script>

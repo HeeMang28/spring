@@ -3,12 +3,17 @@ package com.ict.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,9 +21,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ict.persistence.AuthVO;
+import com.ict.persistence.BoardAttachVO;
 import com.ict.persistence.BoardVO;
 import com.ict.persistence.MemberVO;
 import com.ict.persistence.PageMaker;
@@ -67,6 +74,35 @@ public class BoardController {
 		
 		return str.replace("-", File.separator);
 		
+	}
+	
+	// 삭제 보조 메서드
+	private void deleteFiles(List<BoardAttachVO> attachList) {
+		
+		if(attachList == null || attachList.size() == 0) {
+			return;
+		}
+		
+		log.info(attachList);
+		
+		attachList.forEach(attach -> {
+			try {
+				Path file = Paths.get("c:\\upload_data\\temp\\" + attach.getUploadPath() +
+						"\\" + attach.getUuid() + "_" + attach.getFileName());
+				
+				Files.deleteIfExists(file);
+				
+				if(Files.probeContentType(file).startsWith("image")) {
+					
+					Path thumbNail = Paths.get("C:\\upload_data\\temp" + attach.getUploadPath() +
+							"\\s_" + attach.getUuid() + "_" + attach.getFileName());
+					
+					Files.delete(thumbNail);
+				}
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			} // end catch
+		}); // end foreach
 	}
 	
 	@PreAuthorize("permitAll")
@@ -150,7 +186,21 @@ public class BoardController {
 	public String deleteBoard(Long bno) {
 		// 삭제 후 리스트로 돌아갈 수 있도록 내부 로직을 만들어주시고
 		// 디테일 페이지에 삭제 요청을 넣을 수 있는 폼을 만들어주세요.
+		
+		// 삭제 할 로직의 첨부파일 목록을 먼저 다 가지고 옵니다.
+		List<BoardAttachVO> attachList = service.getAttachList(bno);
+		
+		// 삭제 후 리스트로 돌아갈 수 있도록 내부 로직을 만들어주시고
+		// 아래 로직은 DB에 있던 정보만 삭제하므로
 		service.delete(bno);
+		// 디테일 페이지에 삭제 요청을 넣을 수 있는 폼을 만들어주세요.
+		
+		// attachList에 들어있는 정보를 토대로 C:의 파일까지 삭제
+		// 단 첨부파일이 없으면 삭제로직을 돌릴 필요 는없으므로
+		// 미리 첨부파일이 있는지 여부를 확인해서 돌립니다.
+		if(attachList != null || attachList.size() > 0) {
+			deleteFiles(attachList);
+		}
 		return "redirect:/board/list";
 	}
 	
@@ -204,6 +254,13 @@ public class BoardController {
 		}
 		
 		secuService.insertMember(vo);
+	}
+	
+	@GetMapping(value="/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno) {
+		
+		return new ResponseEntity<>(service.getAttachList(bno), HttpStatus.OK);
 	}
 
 }

@@ -2,6 +2,7 @@ package com.ict.service;
 
 import java.util.List;
 
+import com.ict.persistence.BoardAttachVO;
 import com.ict.persistence.BoardVO;
 import com.ict.persistence.Criteria;
 import com.ict.persistence.SearchCriteria;
@@ -25,4 +26,6 @@ public interface BoardService {
 	public void update(BoardVO vo);
 	
 	public BoardVO boardDetail(Long bno);
+	
+	public List<BoardAttachVO> getAttachList(Long bno);
 }
