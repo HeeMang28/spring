@@ -174,7 +174,7 @@
 			
 			// 익명함수 선언 및 호출
 			// 우선 함수이기 때문에 호출한다는 점을 명시하기 위해 마지막에 () 를 추가로 붙여준다.
-			(function(){
+			$(document).ready(function(){
 				$.getJSON("/board/getAttachList", {bno:bno}, function(arr){
 					console.log(arr);
 					
@@ -205,7 +205,7 @@
 					$("#uploadResult ul").html(str);
 				}); // end getJSON
 			})(); // end anonymous	
-			
+		}); // document
 			$("#uploadResult").on("click", "li", finction(e){
 				let liObj = $(this);
 				

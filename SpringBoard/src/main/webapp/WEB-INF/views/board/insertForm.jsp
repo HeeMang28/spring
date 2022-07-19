@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,7 +119,7 @@
 						str += `<li data-path='\${obj.uploadPath}' data-uuid='\${obj.uuid}'
 									data-filename='\${obj.fileName}' data-type='\${obj.image}'>
 									<a href='/download?fileName=\${fileCallPath}'>
-										<img src='/resources/pngwing.com.png'>\${obj.fileName}
+										<img src='/resources/attach.png'>\${obj.fileName}
 									</a>
 									<span data-file='\${fileCallPath}' data-type='file'>X</span>
 								</li>`;
@@ -212,11 +211,9 @@
 			});
 			
 			
-			
-			
-			
 		});	// document ready
 	
 	</script>
+
 </body>
 </html>

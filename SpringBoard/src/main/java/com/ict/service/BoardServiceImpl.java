@@ -16,27 +16,27 @@ import com.ict.persistence.SearchCriteria;
 
 @Service
 public class BoardServiceImpl implements BoardService {
+
+	@Autowired
+	private BoardMapper mapper;
 	
 	@Autowired
-	BoardMapper mapper;
-	
-	@Autowired
-	ReplyMapper replyMapper;
+	private ReplyMapper replyMapper;
 	
 	@Autowired
 	private BoardAttachMapper attachMapper;
 	
+
 	@Override
 	public List<BoardVO> getList(SearchCriteria cri) {
 		return mapper.getList(cri);
 	}
-	
+
 	@Transactional
 	@Override
 	public void insert(BoardVO vo) {
 		mapper.insert(vo);
-		
-		if(vo.getAttachList() == null || vo.getAttachList().size()<=0) {
+		if(vo.getAttachList() == null || vo.getAttachList().size() <= 0) {
 			return;
 		}
 		vo.getAttachList().forEach(attach -> {
@@ -44,36 +44,35 @@ public class BoardServiceImpl implements BoardService {
 			attachMapper.insert(attach);
 		});
 	}
-	
+
 	@Transactional
 	@Override
 	public void delete(Long bno) {
 		replyMapper.deleteAll(bno);
-		
 		attachMapper.deleteAll(bno);
-		
 		mapper.delete(bno);
 	}
-	
+
 	@Override
 	public void update(BoardVO vo) {
 		mapper.update(vo);
 	}
-	
+
 	@Override
-	public BoardVO boardDetail(Long bno) {
-		BoardVO boardDetail = mapper.boardDetail(bno);
-		return boardDetail;
+	public BoardVO getDetail(Long bno) {
+		return mapper.getDetail(bno);
 	}
-	
+
 	@Override
 	public Long getBoardCount(SearchCriteria cri) {
 		return mapper.getBoardCount(cri);
 	}
-	
+
 	@Override
-	public List<BoardAttachVO> getAttachList(Long bno){
+	public List<BoardAttachVO> getAttachList(Long bno) {
 		return attachMapper.findByBno(bno);
 	}
-
+	
+	
+	
 }
