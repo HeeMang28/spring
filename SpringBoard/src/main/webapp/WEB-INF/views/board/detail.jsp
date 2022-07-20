@@ -163,6 +163,7 @@
 		let rno =  reply.attr("data-rno");
 		let replytext = $(this).prev().html()//본문만 가져오도록 살짝 수정해주세요.
 		
+<<<<<<< HEAD
 		$(".modal-title").html(rno);
 		$("#replyText").val(replytext);
 		$("#modDiv").show('slow');
@@ -175,6 +176,71 @@
 	$("#replyAddBtn").on("click", function(){
 		let replyer = $("#newReplyer").val();
 		let reply = $("#newReplyText").val();
+=======
+		// 이벤트 위임
+		$('#replies').on("click", ".replyLi button", function(){
+			// 4. 함수 내부으 this는 내가 클릭한 button이 됩니다.
+			// 선태 요소와 연관된 태그 고르기
+			// 1. prev().prev()... 등과 같이 연쇄적으로 prev, next를 걸어서 고르기
+			// 2. prev("태그선택자")를 써서 뒤쪽이나 앞쪽 형제 중 조건에 맞는것만 선택
+			// 3. siblings("태그선택자")는 next, prev 모두를 범위로 조회합니다.
+			// let reply = $(this).siblings(".replytext");
+				// 4. 함수 내부으 this는 내가 클릭한 button이 됩니다.
+				let reply = $(this).parent();
+				// 화살표 함수는 this 키워드를 쓰지 않을때만 사용 가능하다. 여기서 this는 버튼이다
+				// .attr("태그 내 속성명") => 해당 속성에 부여된 값을 가져옵니다.
+				// ex) <li data-rno="33"> => rno에 33을 저장해줍니다.
+				let rno = reply.attr("data-rno");
+				let replytext = $(this).prev().html()// 본문만 가져오도록 살짝 수정해주세요.
+				
+				$(".modal-title").html(rno);
+				$("#replyText").val(replytext);
+				$("#modDiv").show("slow");
+			});
+			
+			// 익명함수 선언 및 호출
+			// 우선 함수이기 때문에 호출한다는 점을 명시하기 위해 마지막에 () 를 추가로 붙여준다.
+			$(document).ready(function(){
+				$.getJSON("/board/getAttachList", {bno:bno}, function(arr){
+					console.log(arr);
+					
+					let str = "";
+					
+					$(arr).each(function(i, attach){
+						// image type
+						if(attach.fileType){
+							let fileCallPath = encodeURIComponent (attach.uploadPath + "/s_" + attach.uuid
+													+ "_" + attach.fileName);
+							console.log(fileCallPath);
+							str += `<li data-path='\${attach.uploadPath}' data-uuid='\${attach.uuid}'
+									data-filename='\${attach.fileName}' data-type='\${attach.fileType}'>
+									<div><img src='/display?fileName=\${fileCallPath}'> </div>
+									</li>`;
+						} else {
+							// 이미지가 아닌 파일의 경우
+							str += `<li data-path='\${attach.uploadPath}' data-uuid='\${attach.uuid}'
+									data-filename='\${attach.fileName}' data-type='\${attach.fileType}'>
+									<div> <span>\${attach.fileName}</span><br/>
+									<img src='/resources/pngwing.com.png' width='100px' height='100px'>
+									</div>
+									</li>`;
+						}
+						
+					}); // .each 반복문 닫는 부분
+					// 위에서 str변수에 작성된 태그 형식을 화면에 끼워넣기
+					$("#uploadResult ul").html(str);
+				}); // end getJSON
+			})(); // end anonymous	
+		}); // document
+			$("#uploadResult").on("click", "li", finction(e){
+				let liObj = $(this);
+				
+				let path = encodeURIComponent(liObj.data("path") + "/" + liObj.data("uuid") + "_" + liObj.data("filename"));
+				
+				// download
+				self.location = "/download?fileName=" + path;
+			})
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 		
 		$.ajax({
 			type : 'post',

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<<<<<<< HEAD
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<style>
@@ -26,6 +27,11 @@
 			width:100px;
 		}
 	</style>
+=======
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/resources/resttest/uploadResult.css">
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -33,6 +39,7 @@
 	<!-- insertForm페이지에서 폼양식을 가져온 다음
 	얻어온 글에 대한 정보를 끼워넣어주세요. -->
 	<form action="/board/update" method="post">
+<<<<<<< HEAD
 		<input type="hidden" name="page" value="${param.page }"/>
 		<input type="hidden" name="searchType" value="${param.searchType }"/>
 		<input type="hidden" name="keyword" value="${param.keyword }"/>
@@ -64,6 +71,42 @@
 	let csrfTokenValue="${_csrf.token}"
 	// 어떤 글의 첨부파일인지 확인하기위해 bno를 선언해 받아넣어주세요.
 	let bno = ${board.bno };
+=======
+	제목 : <input type="text" name="title" value="${board.title }"> <br/>
+	글쓴이 : <input type="text" name="writer" value="${board.writer }" readonly> <br/>
+	내용 : <textarea name="content" >${board.content }</textarea> <br/>
+	쓴 날짜 : <input type="text" name="regdate" value="${board.regdate }" readonly> <br/>
+	<input type="hidden" name="bno" value="${board.bno }">
+	<input type="hidden" name="page" value="${param.page }">
+	<input type="hidden" name="searchType" value="${param.searchType }">
+	<input type="hidden" name="keyword" value="${param.keyword }">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
+	<input type="submit" value="수정하기">
+	</form>
+	
+	<div class="row">
+		<h3 class="text-primary">첨부파일</h3>
+		
+		<div class="form-group uploadDiv">
+			<input type='file' name='uploadFile' multiple>
+			<button id="uploadBtn">등록</button>
+		</div>
+		<div id="uploadResult">
+			<ul>
+				<!--  첨부파일이 들어갈 위치 -->
+			</ul>
+		</div>
+	</div>
+	<form action="/board/list" method="get">
+		<input type="submit" value="목록으로">
+	</form>
+	
+	<script>
+	let csrfHeaderName = "${_csrf.headerName}"
+	let csrfTokenValue="${_csrf.token}"
+	
+	let bno = ${board.bno};
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 	
 	// 정규표현식 : 예).com 끝나는 문장 등의 조건이 복잡한 문장을 컴퓨터에게 이해시키기 위한 구문
 	var regex = new RegExp("(.*)\.(exe|sh|zip|alz)$");
@@ -84,15 +127,19 @@
 		return true;
 	}
 	
+<<<<<<< HEAD
 	
 	
 	
 	// 익명함수 선언 및 호출
 	// 우선 함수이기 때문에 호출한다는 점을 명시하기 위해 마지막에 () 를 추가로 붙여준다.
+=======
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 	(function(){
 		$.getJSON("/board/getAttachList", {bno:bno}, function(arr){
 			console.log(arr);
 			
+<<<<<<< HEAD
 			let str = "";
 			
 			$(arr).each(function(i, attach){
@@ -100,17 +147,28 @@
 				if(attach.fileType){
 					let fileCallPath = encodeURIComponent(attach.uploadPath + 
 										"/s_" + attach.uuid + "_" + attach.fileName);
+=======
+			$(arr).each(function(i, attach){
+				if(attach.fileType){
+					let fileCallPath = encodeURIComponent(attach.uploadPath + "/s_" +
+							attach.uuid + "_" + attach.fileName);
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 					
 					str += `<li data-path='\${attach.uploadPath}' data-uuid='\${attach.uuid}'
 							data-filename='\${attach.fileName}' data-type='\${attach.fileType}'>
 								<div>
 									<span>\${attach.fileName}</span>
 									<button type='button' data-file='\${fileCallPath}' data-type='image'
+<<<<<<< HEAD
 										class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br/>
+=======
+									class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 									<img src='/display?fileName=\${fileCallPath}'>
 								</div>
 							</li>`;
 				} else {
+<<<<<<< HEAD
 					let fileCallPath = encodeURIComponent(attach.uploadPath + 
 							"/" + attach.uuid + "_" + attach.fileName);
 					// 이미지가 아닌 파일의 경우
@@ -132,17 +190,47 @@
 	
 	
 	$("#uploadResult").on("click", "button", function(e){
+=======
+					let fileCallPath = encodeURIComponent(attach.uploadPath + "/" + attach.uuid + "_" + attach.fileName);
+					// 이미지가 아닌 파일의 경우
+					str += `<li data-path='\${attach.uploadPath}' data-uuid='\${attach.uuid}'
+							data-filename='\${attach.fileName}' data-type='${attach.fileType}'>
+								<div>
+									<span>\${attach.fileName}</span><br/>
+									<button type='button' data-file='\${fileCallPath}' data-type='file'
+									class='btn btn-waring btn-circle'><i class='fa fa-times'></i></button><br>
+									<img src='/resources/pngwing.com.png' width='100px' height='100px'>
+								</div>
+							</li>`;
+							
+				}
+			}); // .each 반복문 닫는 부분
+			// 위에서 str변수에 작성된 태그 형식을 화면에 끼워넣기
+			$("#uploadResult ul").html(str);
+		}); // end getJSON
+	})(); // end anonymous	
+	
+	$("#uploadResult").on("click", "button", function(e){
+		
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 		if(confirm("선택한 파일을 삭제하시겠습니까?")){
 			let targetLi = $(this).closest("li");
 			targetLi.remove();
 		}
 	});
 	
+<<<<<<< HEAD
 
 	let cloneObj = $(".uploadDiv").clone();
 	
 	$('#uploadBtn').on("click", function(e){
 		
+=======
+	let cloneObj = $(".uploadDiv").clone();
+	
+	$('#uploadBtn').on("click", function(e){
+	
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 		var formData = new FormData();
 		
 		var inputFile = $("input[name='uploadFile']");
@@ -179,7 +267,12 @@
 				$(".uploadDiv").html(cloneObj.html());
 			}
 		}); // ajax
+<<<<<<< HEAD
 	});// uploadBtn onclick	
+=======
+		
+	});// uploadBtn onclick
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 	
 	let uploadResult = $("#uploadResult ul");
 	
@@ -189,7 +282,10 @@
 		$(uploadResultArr).each(function(i, obj){
 			console.log(obj);
 			console.log(obj.image);
+<<<<<<< HEAD
 
+=======
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 			if(!obj.image){
 				
 				let fileCallPath = encodeURIComponent(obj.uploadPath + "/" + 
@@ -198,10 +294,17 @@
 				str += `<li data-path='\${obj.uploadPath}' data-uuid='\${obj.uuid}'
 							data-filename='\${obj.fileName}' data-type='\${obj.image}'>
 							<div>
+<<<<<<< HEAD
 								<span>\${obj.fileName}</span><br/>
 								<button type='button' data-file='\${fileCallPath}' data-type='file' 
 									class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br/>
 								<img src='/resources/attach.png' width='100px' height='100px'>
+=======
+								<span>\${obj.fileName}</span>
+								<button type='button' data-file='\${fileCallPath}' data-type='image'
+								class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>
+								<img src='/display?fileName=\${fileCallPath}'>
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 							</div>
 						</li>`;
 			} else{
@@ -217,16 +320,26 @@
 				
 				str += `<li data-path='\${obj.uploadPath}' data-uuid='\${obj.uuid}'
 						data-filename='\${obj.fileName}' data-type='\${obj.image}'>
+<<<<<<< HEAD
 							<div>
 								<span>\${obj.fileName}</span>
 								<button type='button' data-file='\${fileCallPath}' data-type='image'
 									class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br/>
 								<img src='/display?fileName=\${fileCallPath}'>
 							</div>
+=======
+						<div>
+							<span>\${obj.fileName}</span><br/>
+							<button type='button' data-file='\${fileCallPath}' data-type='file'
+							class='btn btn-waring btn-circle'><i class='fa fa-times'></i></button><br>
+							<img src='/resources/pngwing.com.png' width='100px' height='100px'>
+						</div>
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 						</li>`;
 			}
 		});
 		uploadResult.append(str);
+<<<<<<< HEAD
 	}// showUploadedFile	
 	
 	// 제출버튼 막기
@@ -264,6 +377,10 @@
 		// 5. formObj.submit()을 이용해 제출기능이 실행되도록합니다.
 		formObj.submit();	
 	});	
+=======
+	}// showUploadedFile
+
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 	
 	</script>
 </body>
