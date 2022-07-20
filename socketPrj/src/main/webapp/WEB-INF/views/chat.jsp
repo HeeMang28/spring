@@ -32,7 +32,7 @@
 				this._socket.onmessage = function(evt) {
 					webSocket.receiveMessage(evt.data);
 				};
-				this.socket.onclose = function(evt) {
+				this._socket.onclose = function(evt) {
 					webSocket.closeMessage(evt.data);
 				}
 			},
@@ -40,6 +40,9 @@
 				this._socket.send(str);
 			}
 	};
+			$(window).on('load', function (){
+				webSocket.init({ url: '<c:url value="/chat" />'});
+			});
 	</script>
 </head>
 <body>
