@@ -17,10 +17,10 @@ public class PageMaker {
 	public void calcData() {
 		this.displayPageNum = 10;
 		
-		this.endPage = (int)(Math.ceil(cri.getPage() / 
-				(double) displayPageNum) * displayPageNum);
-		
-		this.startPage = (endPage - displayPageNum) + 1;
+		// 끝나는 페이지는 소속 번호를 실수 10으로 나눈다음 다시 올림처리후 10을 곱해 구할 수 있다.
+		this.endPage = (int)(Math.ceil(cri.getPage() / (double)displayPageNum) * displayPageNum);
+		// 시작페이지는 끝나는페이지 - 페이지개수 +1을 하면 된다.
+		this.startPage = (this.endPage - this.displayPageNum) + 1;
 		
 		int tempEndPage = (int)(Math.ceil(totalBoard / (double)cri.getNumber()));
 		
@@ -32,10 +32,10 @@ public class PageMaker {
 		
 		this.next = this.endPage * cri.getNumber() >= totalBoard ? false : true;
 	}
+	
 	public void setTotalBoard(Long totalBoard) {
 		this.totalBoard = totalBoard;
-		
 		calcData();
 	}
-
+	
 }

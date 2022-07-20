@@ -11,22 +11,18 @@ import lombok.Getter;
 
 @Getter
 public class CustomUser extends User {
-	
-	private static final long serialVersionUID = 1L;
-	
+
 	private MemberVO member;
 	
-	public CustomUser(String username, String password,
-			Collection<? extends GrantedAuthority> auth) {
+	public CustomUser(String username, String password, Collection<? extends GrantedAuthority> auth) {
 		super(username, password, auth);
 	}
 	
 	public CustomUser(MemberVO vo) {
-		super(vo.getUserid(), vo.getUserpw(),
+		super(vo.getUserid(), 
+				vo.getUserpw(),
 				vo.getAuthList().stream().map(author ->
-				new SimpleGrantedAuthority(author.getAuth()))
-				.collect(Collectors.toList()));
-		this.member = vo;
+						new SimpleGrantedAuthority(author.getAuth())).collect(Collectors.toList()));
 	}
 
 }

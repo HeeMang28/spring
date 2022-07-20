@@ -1,7 +1,6 @@
 package com.ict.controller;
 
 import java.io.File;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -41,56 +40,55 @@ public class UploadController {
 			String contentType = Files.probeContentType(file.toPath());
 			
 			return contentType.startsWith("image");
-		} catch (IOException e) {
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
 	
+
 	private String getFolder() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		Date date = new Date();
-		
+		log.info("날짜 갓 생성 : " + date);
 		String str = sdf.format(date);
-		
+		log.info("포맷 형식이 바뀐 날짜 : " + str);
 		return str.replace("-", File.separator);
-		
 	}
+	
 	
 	@GetMapping("/uploadForm")
 	public void uploadForm() {
-		
 		log.info("upload form");
 	}
 	
-	@PostMapping("/uploadFormAction")
+	@PostMapping("uploadFormAction")
 	public void uploadFormPost(MultipartFile[] uploadFile, Model model) {
 		
-		String uploadFolder = "C:\\upload_data\\temp";
+		String uploadFolder= "C:\\upload_data\\temp";
 		// MultipartFile은 폼에서 보낸 파일을 자바 내부에서 명령을 받을 수 있도록 도와줍니다.
 		for(MultipartFile multipartFile : uploadFile) {
 			
-			log.info("--------------------");
-			log.info("Upload file Name: " + multipartFile.getOriginalFilename());
-			log.info("Upload File Size: " + multipartFile.getSize());
+			log.info("---------------------");
+			log.info("Upload File Name : " + multipartFile.getOriginalFilename());
+			log.info("Upload File Size : " + multipartFile.getSize());
 			
 			// 다시 자바 변수였던 multipartFile을 외부 파일로 변환하기 위해서는
 			// new File(저장위치, 원본MultipartFile) 을 이용해야 합니다.
-			
 			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
 			
 			try {
 				multipartFile.transferTo(saveFile);
-			} catch (Exception e) {
+			} catch(Exception e) {
 				log.error(e.getMessage());
-			} // end try~catch
-		} // end for
+			}// end try~catch
+		}// end for
 	}
-	
+
 	@GetMapping("/uploadAjax")
 	public void uploadAjax() {
-		log.info("upload ajax");
+		log.info("upload Ajax");
 	}
 	
 	@PostMapping("/uploadAjaxAction")
@@ -102,54 +100,58 @@ public class UploadController {
 		
 		// 날짜로 폴더 생성
 		File uploadPath = new File(uploadFolder, getFolder());
-		log.info("upload path: " + uploadPath);
+		log.info("upload path : " + uploadPath);
 		
-		if(uploadPath.exists() == false) {
+		// 해당 경로에 폴더가 존재하는지 체크
+		if(!uploadPath.exists()) {
+			// 폴더가 없다면 디렉토리 생성
 			uploadPath.mkdirs();
 		}
 		
+		
 		for(MultipartFile multipartFile : uploadFile) {
 			
-			log.info("-------------------");
-			// \\ 경로가 포함된 파일명
-			log.info("Upload file name: " + multipartFile.getOriginalFilename());
-			log.info("Upload file size: " + multipartFile.getSize());
+			log.info("-----------------------");
+			// \\경로가 포함된 파일명
+			log.info("Upload file name : " + multipartFile.getOriginalFilename());
+			log.info("upload file size : " + multipartFile.getSize());
 			
-			 String uploadFileName = multipartFile.getOriginalFilename();
-			// \\ 를 빼고 온전한 파일이름만 추출해서 uploadFileName에 저장
+			String uploadFileName = multipartFile.getOriginalFilename();
+			// \\를 빼고 온전한 파일이름만 추출해서 uploadFileName에 저장
 			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);
 			
 			log.info("last file name : " + uploadFileName);
 			
-			//uuid 발급 부분
+			// UUID 발급
 			UUID uuid = UUID.randomUUID();
 			uploadFileName = uuid.toString() + "_" + uploadFileName;
-			
+					
 			// temp 경로까지만 잡는 uploadFolder 대신 날짜경로까지 잡는 uploadPath로 위치를 교체
 			//File saveFile = new File(uploadFolder, uploadFileName);
-			
 			
 			// 썸네일 생성 로직 추가
 			//File saveFile = new File(uploadPath, uploadFileName);
 			
 			try {
-				// 일다 파일을 먼저 만들고, 이미지인 경우만 추가로 썸네일 생성
+				// 일단 파일을 먼저 만들고, 이미지인 경우만 추가로 썸네일 생성
 				File saveFile = new File(uploadPath, uploadFileName);
 				multipartFile.transferTo(saveFile);
 				
 				// 이 아래부터 썸네일 생성로직
 				if(checkImageType(saveFile)) {
-					FileOutputStream thumbnail = new FileOutputStream(
-							new File(uploadPath, "s_" + uploadFileName));
+					FileOutputStream thumbnail =
+							new FileOutputStream(
+									new File(uploadPath, "s_" + uploadFileName));
 					
 					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
 				}
-			}  catch(Exception e) {
+				
+			} catch(Exception e) {
 				log.error(e.getMessage());
-			} 
-		} // end for
+			}
+		}// end for
 		
-	} // upload ajax post method
+	}// upload ajax post method
 	
 	
 	@PostMapping(value="/uploadFormAction", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -163,7 +165,7 @@ public class UploadController {
 		
 		File uploadPath = new File(uploadFolder, uploadFolderPath);
 		
-		if(uploadPath.exists() == false) {
+		if(!uploadPath.exists()) {
 			uploadPath.mkdirs();
 		}
 		
@@ -175,12 +177,12 @@ public class UploadController {
 			
 			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);
 			
-			log.info("only file name: " + uploadFileName);
-			
+			log.info("only file name : " + uploadFileName);
+		
 			attachDTO.setFileName(uploadFileName);
 			
 			UUID uuid = UUID.randomUUID();
-			
+		
 			uploadFileName = uuid.toString() + "_" + uploadFileName;
 			
 			try {
@@ -204,21 +206,21 @@ public class UploadController {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-		} // end for
+		}// end for
 		return new ResponseEntity<>(list, HttpStatus.OK);
-	} // uploadFormPost json
+	}// uploadFormPost
 	
-	// 그림 파일 정보를 json으로 리턴해 비동기 요청으로 쓸 수 있도록 만들어주는 getFile메서드
+	// 그림파일 정보를 json으로 리턴해 비동기 요청으로 쓸 수 있도록 만들어주는 getFile메서드
 	@GetMapping("/display")
 	@ResponseBody
 	// 바이트 자료형인 이유는 그림정보이므로
 	public ResponseEntity<byte[]> getFile(String fileName){
 		
-		log.info("fileName: " + fileName);
+		log.info("fileName : " + fileName);
 		
 		File file = new File("C:\\upload_data\\temp\\" + fileName);
 		
-		log.info("file: " + file);
+		log.info("file : " + file);
 		
 		ResponseEntity<byte[]> result = null;
 		
@@ -227,23 +229,26 @@ public class UploadController {
 			HttpHeaders header = new HttpHeaders();
 			
 			// 이 메세지를 통해서 헤더부분에 파일정보가 들어감
-			header.add("Content-type", Files.probeContentType(file.toPath()));
+			header.add("Content-Type", Files.probeContentType(file.toPath()));
 			
-			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),
-											header,HttpStatus.OK);
-		} catch (IOException e) {
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), 
+																	header, 
+																	HttpStatus.OK);
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
+	
 	@GetMapping(value="/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(String fileName){
 		
-		log.info("download file: " + fileName);
+		log.info("download file : " + fileName);
 		
+		// 임포트는 최우선적으로 스프링 관련 요소로 임포트해주세요.
 		Resource resource = new FileSystemResource("C:\\upload_data\\temp\\" + fileName);
-				
+		
 		log.info("resource: " + resource);
 		
 		String resourceName = resource.getFilename();
@@ -251,11 +256,12 @@ public class UploadController {
 		HttpHeaders headers = new HttpHeaders();
 		
 		try {
-			headers.add("Content-Disposition", "attachment; filename=" + 
-						new String(resourceName.getBytes("UTF-8"),"ISO-8859-1"));
-		} catch (UnsupportedEncodingException e) {
+			headers.add("Content-Disposition", "attachment; fileName=" + 
+								new String(resourceName.getBytes("UTF-8"), "ISO-8859-1"));
+		} catch(UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 	}
 	
@@ -263,32 +269,38 @@ public class UploadController {
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileName, String type){
 		
-		log.info("deleteFile: " + fileName);
+		log.info("deleteFile : " + fileName);
 		
 		File file = null;
 		
-		try { 
+		try {
 			file = new File("c:\\upload_data\\temp\\" + URLDecoder.decode(fileName, "UTF-8"));
 			
 			file.delete();
-			log.info("이미지 타입체크 : "  + type);
+			log.info("이미지 타입체크 : " + type);
 			log.info("이미지 여부 : " + type.equals("image"));
 			if(type.equals("image")) {
 				
 				String largeFileName = file.getAbsolutePath().replace("s_", "");
 				
-				log.info("largeFileName: " + largeFileName);
+				log.info("largeFileName : " + largeFileName);
 				
 				file = new File(largeFileName);
 				
 				file.delete();
-			} 
+			}
 		} catch(UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
-	}
+	}// delete file method
+	
 	
 }
+
+
+
+
+
+

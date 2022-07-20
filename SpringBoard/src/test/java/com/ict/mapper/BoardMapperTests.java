@@ -70,7 +70,7 @@ public class BoardMapperTests {
 	
 	@Test
 	public void testBoardDetail() {
-		mapper.boardDetail(3L);
+		mapper.getDetail(3L);
 	}
 
 }
