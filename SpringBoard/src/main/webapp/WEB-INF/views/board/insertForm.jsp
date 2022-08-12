@@ -206,10 +206,17 @@
 				formObj.append(str);
 				
 				// 5. formObj.submit()을 이용해 제출기능이 실행되도록합니다.
+<<<<<<< HEAD
+				formObj.submit();	
+			});
+	
+		
+=======
 				formObj.submit();
 				
 			});
 			
+>>>>>>> ee8fb589ffc06bd2314e15cf3077f15209b9d23a
 			
 		});	// document ready
 	
